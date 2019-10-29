@@ -23,7 +23,7 @@ export const postCategory = app.use([...middlewares, userProfileValidation], asy
   }
 
   const categoryService = new CategoryService();
-  const category = await categoryService.save(context.req.body);
+  const category = await categoryService.save(context.req.body, context.user.id);
   const newUri = `categories/${category.id}`;
 
   context.res.headers.set("location", newUri);
@@ -37,7 +37,7 @@ export const putCategory = app.use([...middlewares, categoryValidation], async (
   };
 
   const categoryService = new CategoryService();
-  await categoryService.save(categoryToSave);
+  await categoryService.save(categoryToSave, context.user.id);
 
   context.send(null, 204);
 });
@@ -50,14 +50,14 @@ export const patchCategory = app.use([...middlewares, categoryValidation], async
   };
 
   const categoryService = new CategoryService();
-  await categoryService.save(categoryToSave);
+  await categoryService.save(categoryToSave, context.user.id);
 
   context.send([], 204);
 });
 
 export const deleteCategory = app.use([...middlewares, categoryValidation], async (context: CategoryApiContext) => {
   const categoryService = new CategoryService();
-  await categoryService.delete(context.category.id);
+  await categoryService.delete(context.category, context.user.id);
 
   context.send(null, 204);
 });

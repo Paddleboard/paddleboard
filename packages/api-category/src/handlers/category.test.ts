@@ -12,12 +12,16 @@ describe("User Profile Handlers", () => {
       id: shortid.generate(),
       firstName: "Wallace",
       lastName: "Breza",
-      email: "wallace@breza.me"
+      email: "wallace@breza.me",
+      identity: {
+        type: "github.com",
+        externalId: "wbreza",
+        metadata: {}
+      }
     };
 
     categories = [{
       id: shortid.generate(),
-      userId: userProfile.id,
       name: "Category 1",
       description: "I am category 1"
     }];
