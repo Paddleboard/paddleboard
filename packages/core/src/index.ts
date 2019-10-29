@@ -9,7 +9,9 @@ export * from "./services/userProfileService";
 export * from "./services/developerAccountService";
 export * from "./services/categoryService";
 export * from "./services/repositoryService";
+export * from "./services/userRepositoryService";
 export * from "./services/pullRequestService";
+export * from "./services/codeReviewService";
 // Middlewares
 export * from "./middleware/userProfileValidationMiddleware";
 export * from "./middleware/repositoryValidationMiddleware";

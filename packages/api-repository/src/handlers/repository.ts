@@ -1,6 +1,6 @@
 import { app, RepositoryApiContext } from "../app";
 import { config } from "../config"
-import { RepositoryService, UserProfileValidationMiddleware, RepositoryValidationMiddleware, CategoryValidationMiddleware, Repository } from "@paddleboard/core";
+import { UserRepositoryService, RepositoryService, UserProfileValidationMiddleware, RepositoryValidationMiddleware, CategoryValidationMiddleware, Repository } from "@paddleboard/core";
 import { CloudContext } from "@multicloud/sls-core";
 import { StorageQueueMiddleware } from "@multicloud/sls-azure";
 
@@ -10,15 +10,15 @@ const categoryValidation = CategoryValidationMiddleware();
 const repoValidation = RepositoryValidationMiddleware();
 
 export const getRepositoryListByUser = app.use([...middlewares, userProfileValidation], async (context: RepositoryApiContext) => {
-  const repoService = new RepositoryService();
+  const repoService = new UserRepositoryService();
   const repos = await repoService.getByUser(context.user.id);
 
   context.send({ value: repos }, 200);
 });
 
 export const getRepositoryListByUserAndCategory = app.use([...middlewares, categoryValidation], async (context: RepositoryApiContext) => {
-  const repoService = new RepositoryService();
-  const repos = await repoService.getByCategory(context.category.id);
+  const repoService = new UserRepositoryService();
+  const repos = await repoService.getByCategory(context.user.id, context.category.id);
 
   context.send({ value: repos }, 200);
 });

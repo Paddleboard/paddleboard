@@ -1,6 +1,6 @@
 import shortid from "shortid";
 import { CloudContextBuilder } from "@multicloud/sls-core";
-import { RepositoryService, Repository, UserProfile, UserProfileService } from "@paddleboard/core";
+import { UserRepositoryService, Repository, UserProfile, UserProfileService, DeveloperAccountType } from "@paddleboard/core";
 import { getRepositoryListByUser } from "./repository";
 
 describe("Repository Handlers", () => {
@@ -10,6 +10,11 @@ describe("Repository Handlers", () => {
   beforeAll(() => {
     userProfile = {
       id: shortid.generate(),
+      identity: {
+        type: "github.com",
+        externalId: "wbreza",
+        metadata: {}
+      },
       firstName: "Wallace",
       lastName: "Breza",
       email: "wallace@breza.me"
@@ -18,13 +23,12 @@ describe("Repository Handlers", () => {
     repositories = [{
       id: shortid.generate(),
       name: "paddleboard",
-      accountId: shortid.generate(),
-      userId: userProfile.id,
+      providerType: DeveloperAccountType.GitHub,
       portalUrl: "https://github.com/wbreza/paddleboard"
     }];
 
     UserProfileService.prototype.get = jest.fn(() => Promise.resolve(userProfile));
-    RepositoryService.prototype.getByUser = jest.fn(() => Promise.resolve(repositories));
+    UserRepositoryService.prototype.getByUser = jest.fn(() => Promise.resolve(repositories));
   });
 
   describe("Get repository list by users returns list of expected repos", () => {

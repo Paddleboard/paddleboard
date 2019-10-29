@@ -38,7 +38,7 @@
   "dependencies": {
     "@multicloud/sls-azure": "^0.1.1-13",
     "@multicloud/sls-core": "^0.1.1-24",
-    "@paddleboard/core": "^1.0.2-2",
+    "@paddleboard/core": "^1.0.2-6",
     "shortid": "^2.2.15"
   },
   "devDependencies": {
@@ -59,7 +59,7 @@
     "eslint": "^5.16.0",
     "jest": "^24.8.0",
     "rimraf": "^3.0.0",
-    "serverless-azure-functions": "^1.0.2-9",
+    "serverless-azure-functions": "^1.0.2-13",
     "serverless-webpack": "^5.3.1",
     "shx": "^0.3.2",
     "typescript": "^3.5.2",
