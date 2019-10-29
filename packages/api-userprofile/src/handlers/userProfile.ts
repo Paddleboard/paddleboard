@@ -1,5 +1,5 @@
 import { app } from "../app";
-import { PaddleboardCloudContext, UserProfileService, UserProfileValidationMiddleware, AccountService, UserProfile } from "@paddleboard/core";
+import { PaddleboardCloudContext, UserProfileService, UserProfileValidationMiddleware, DeveloperAccountService, UserProfile } from "@paddleboard/core";
 
 const userValidation = UserProfileValidationMiddleware();
 
@@ -78,7 +78,7 @@ export const getCurrentUserProfile = app.use(async (context: PaddleboardCloudCon
     return context.send({ message: "User not found" }, 404);
   }
 
-  const accountService = new AccountService();
+  const accountService = new DeveloperAccountService();
 
   const user: UserProfile = {
     ...context.user,
@@ -92,35 +92,19 @@ export const getCurrentUserProfile = app.use(async (context: PaddleboardCloudCon
 
 export const postCurrentUserProfile = app.use(async (context: PaddleboardCloudContext) => {
   const userService = new UserProfileService();
-  const accountService = new AccountService();
-
-  let account = await accountService.getByProvider(context.identity.subject, context.identity.provider);
   let user = await userService.getByEmail(context.identity.email);
-
-  if (account && user && account.userId !== user.id) {
-    return context.send({ message: "Account is already associated with another account" }, 409);
-  }
 
   if (!user) {
     user = await userService.save({
+      identity: {
+        type: context.identity.claims.idp,
+        externalId: context.identity.subject,
+        metadata: context.identity.claims
+      },
       email: context.identity.email,
       firstName: context.identity.firstName,
       lastName: context.identity.lastName,
     });
-  }
-
-  user.accounts = await accountService.getByUser(user.id);
-
-  if (!account) {
-    account = {
-      providerId: context.identity.subject,
-      providerType: context.identity.provider,
-      userId: user.id,
-      metadata: context.identity
-    };
-
-    account = await accountService.save(account);
-    user.accounts.push(account);
   }
 
   return {
