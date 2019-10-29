@@ -61,8 +61,8 @@ steps:
     sshPublicKey: $(SSH_PUBLIC_KEY)
     sshKeySecureFile: paddleboard_id_rsa
   env:
-    KNOWN_HOSTS_ENTRY: $(KNOWN-HOSTS-ENTRY)
-    SSH_PUBLIC_KEY: $(SSH-PUBLIC-KEY)  # map to the right format (camelCase) that Azure credentials understand
+    KNOWN_HOSTS_ENTRY: $(KNOWN_HOSTS_ENTRY)
+    SSH_PUBLIC_KEY: $(SSH_PUBLIC_KEY)  # map to the right format (camelCase) that Azure credentials understand
 
 - task: Bash@3
   name: BumpNpmVersion
