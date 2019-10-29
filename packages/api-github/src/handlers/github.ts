@@ -1,7 +1,7 @@
 import { StorageQueueMiddleware } from "@multicloud/sls-azure";
 import { app, GitHubApiContext } from "../app";
 import { config } from "../config"
-import { AccountService, ProviderType, QueueService, Repository, Account } from "@paddleboard/core";
+import { DeveloperAccountService, QueueService, Repository, DeveloperAccountType } from "@paddleboard/core";
 import { GitHubMiddleware } from "../middleware/githubMiddleware";
 
 const middlewares = [...config(), GitHubMiddleware()];
@@ -23,13 +23,12 @@ export const authorize = app.use(middlewares, async (context: GitHubApiContext) 
     queueName: "github-installations"
   });
 
-  const accountService = new AccountService();
+  const accountService = new DeveloperAccountService();
   const userAccessToken = await context.github.getUserAccessToken(code);
   const githubAccount = await context.github.getUserAccount(userAccessToken);
-  const userAccount = await accountService.getByProvider(githubAccount.login, ProviderType.GitHub);
 
   const installPayload = {
-    account: userAccount,
+    account: githubAccount,
     installationId: installationId
   };
 
@@ -69,11 +68,10 @@ export const install = app.use([GitHubMiddleware(), StorageQueueMiddleware()], a
     // Queue repo tasks for each mapped repository
     await repositories.mapAsync(async (githubRepo) => {
       const repo: Repository = {
+        providerType: DeveloperAccountType.GitHub,
         name: githubRepo.name,
         description: githubRepo.description,
         portalUrl: githubRepo.html_url,
-        accountId: account.id,
-        userId: account.userId
       };
 
       const payload = {
