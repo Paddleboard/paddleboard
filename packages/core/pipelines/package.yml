@@ -16,15 +16,12 @@ pr: none
 variables:
   - group: BackendResources
   - group: GithubCredentials
+  - group: GithubDeployCredentials
 
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- checkout: self
-  clean: true
-  persistCredentials: true
-
 - task: NodeTool@0
   inputs:
     versionSpec: '10.x'
@@ -50,6 +47,22 @@ steps:
     GITHUB_CLIENT_SECRET: $(GITHUB-CLIENT-SECRET)
     GITHUB_REDIRECT_URI: $(GITHUB-REDIRECT-URI)
     GITHUB_SIGNING_KEY: $(GITHUB-SIGNING-KEY)
+
+# Download a secure file to the agent machine
+- task: DownloadSecureFile@1
+  # name: sshKey # The name with which to reference the secure file's path on the agent, like $(mySecureFile.secureFilePath)
+  inputs:
+    secureFile: paddleboard_id_rsa
+
+# Install an SSH key prior to a build or deployment
+- task: InstallSSHKey@0 # https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/utility/install-ssh-key?view=azure-devops
+  inputs:
+    knownHostsEntry: $(KNOWN_HOSTS_ENTRY)
+    sshPublicKey: $(SSH_PUBLIC_KEY)
+    sshKeySecureFile: paddleboard_id_rsa
+  env:
+    KNOWN_HOSTS_ENTRY: $(KNOWN-HOSTS-ENTRY)
+    SSH_PUBLIC_KEY: $(SSH-PUBLIC-KEY)  # map to the right format (camelCase) that Azure credentials understand
 
 - task: Bash@3
   name: BumpNpmVersion
