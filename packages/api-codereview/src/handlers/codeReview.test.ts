@@ -1,11 +1,11 @@
 import shortid from "shortid";
 import { CloudContextBuilder } from "@multicloud/sls-core";
-import { getPullRequestListByUser } from "./pullRequest";
-import { UserProfileService, PullRequestService, PullRequest, UserProfile, PullRequestState } from "@paddleboard/core";
+import { getCodeReviewListByUser } from "./codeReview";
+import { UserProfileService, CodeReviewService, CodeReview, UserProfile, CodeReviewState } from "@paddleboard/core";
 
 describe("Pull Request Handlers", () => {
   let userProfile: UserProfile;
-  let pulls: PullRequest[];
+  let reviews: CodeReview[];
 
   beforeAll(() => {
     userProfile = {
@@ -20,21 +20,19 @@ describe("Pull Request Handlers", () => {
       }
     };
 
-    pulls = [{
+    reviews = [{
       id: shortid.generate(),
-      name: "PullRequest 1",
-      description: "I am pullRequest 1",
-      portalUrl: "https://github.com/paddleboard/paddleboard/pull/123",
-      repositoryId: "ABC123",
-      state: PullRequestState.Active
+      pullRequestId: "xyz123",
+      userId: userProfile.id,
+      state: CodeReviewState.Pending
     }];
 
     UserProfileService.prototype.get = jest.fn(() => Promise.resolve(userProfile));
-    PullRequestService.prototype.getByUser = jest.fn(() => Promise.resolve(pulls));
+    CodeReviewService.prototype.getByUser = jest.fn(() => Promise.resolve(reviews));
   });
 
-  describe("Get PullRequest list by user returns expected list of pulls", () => {
-    it("get a list of user profiles", async () => {
+  describe("Code Review API", () => {
+    it("gets CodeReview list by user returns expected list of reviews", async () => {
       const builder = new CloudContextBuilder();
       const context = await builder
         .asHttpRequest()
@@ -42,9 +40,9 @@ describe("Pull Request Handlers", () => {
         .withRequestPathParams({
           userId: "abc123"
         })
-        .invokeHandler(getPullRequestListByUser);
+        .invokeHandler(getCodeReviewListByUser);
 
-      expect(context.res.body).toEqual({ value: pulls });
+      expect(context.res.body).toEqual({ value: reviews });
       expect(context.res.status).toEqual(200);
     });
   });
