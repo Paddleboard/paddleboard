@@ -53,7 +53,7 @@ plugins:
   - serverless-webpack
 
 functions:
-  # Categories
+  # Pull Requests
   getPullRequestListByUser:
     handler: src/handlers/pullRequest.getPullRequestListByUser
     events:
@@ -120,7 +120,7 @@ functions:
           route: user/repositories/{repositoryId}/pulls
           authLevel: function
     apim:
-      api: current-user-profile-api
+      api: current-user-api
       backend: pullrequest-current-user-backend
       operations:
         - method: GET
@@ -172,3 +172,45 @@ functions:
               type: string
             - name: pullRequestId
               type: string
+
+  getPullRequestListByCategory:
+    handler: src/handlers/pullRequest.getPullRequestListByCategory
+    events:
+      - http: true
+        x-azure-settings:
+          methods:
+            - GET
+          route: users/{userId}/categories/{categoryId}/pulls
+          authLevel: function
+    apim:
+      api: user-profile-api
+      backend: pullrequest-user-profile-backend
+      operations:
+        - method: GET
+          urlTemplate: /{userId}/categories/{categoryId}/pulls
+          templateParameters:
+            - name: userId
+              type: string
+            - name: categoryId
+              type: string
+
+  getPullRequestListByCurrentUserAndCategory:
+    handler: src/handlers/pullRequest.getPullRequestListByCategory
+    events:
+      - http: true
+        x-azure-settings:
+          methods:
+            - GET
+          route: user/categories/{categoryId}/pulls
+          authLevel: function
+    apim:
+      api: current-user-api
+      backend: pullrequest-current-user-backend
+      operations:
+        - method: GET
+          urlTemplate: /categories/{categoryId}/pulls
+          templateParameters:
+            - name: categoryId
+              type: string
+
+
