@@ -62,14 +62,14 @@ functions:
         x-azure-settings:
           methods:
             - GET
-          route: users/{userId}/repositories
+          route: users/{userId}/repos
           authLevel: function
     apim:
       api: user-profile-api
       backend: repo-user-profile-backend
       operations:
         - method: GET
-          urlTemplate: /{userId}/repositories
+          urlTemplate: /{userId}/repos
           templateParameters:
             - name: userId
               type: string
@@ -81,14 +81,14 @@ functions:
         x-azure-settings:
           methods:
             - GET
-          route: user/repositories
+          route: user/repos
           authLevel: function
     apim:
       api: current-user-api
       backend: repo-current-user-backend
       operations:
         - method: GET
-          urlTemplate: /repositories
+          urlTemplate: /repos
 
   getRepositoryListByUserAndCategory:
     handler: src/handlers/repository.getRepositoryListByUserAndCategory
@@ -97,14 +97,14 @@ functions:
         x-azure-settings:
           methods:
             - GET
-          route: users/{userId}/categories/{categoryId}/repositories
+          route: users/{userId}/categories/{categoryId}/repos
           authLevel: function
     apim:
       api: user-profile-api
       backend: repo-user-profile-backend
       operations:
         - method: GET
-          urlTemplate: /{userId}/categories/{categoryId}/repositories
+          urlTemplate: /{userId}/categories/{categoryId}/repos
           templateParameters:
             - name: userId
               type: string
@@ -118,14 +118,14 @@ functions:
         x-azure-settings:
           methods:
             - GET
-          route: user/categories/{categoryId}/repositories
+          route: user/categories/{categoryId}/repos
           authLevel: function
     apim:
       api: current-user-api
       backend: repo-current-user-backend
       operations:
         - method: GET
-          urlTemplate: /categories/{categoryId}/repositories
+          urlTemplate: /categories/{categoryId}/repos
           templateParameters:
             - name: categoryId
               type: string
@@ -177,14 +177,14 @@ functions:
         x-azure-settings:
           methods:
             - POST
-          route: users/{userId}/repositories
+          route: users/{userId}/repos
           authLevel: function
     apim:
       api: user-profile-api
       backend: repo-user-profile-backend
       operations:
         - method: POST
-          urlTemplate: /{userId}/repositories
+          urlTemplate: /{userId}/repos
           templateParameters:
             - name: userId
               type: string
