@@ -1,0 +1,53 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger: none
+pr: none
+
+variables:
+  - group: BackendResources
+  - group: AzureDeployCredentials
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- task: Npm@1
+  displayName: 'Install dependencies'
+  inputs:
+    command: 'ci'
+    workingDir: 'packages/api-pullrequest'
+
+- task: DownloadPipelineArtifact@2
+  displayName: 'Download Build Artifact'
+  inputs:
+    buildType: 'specific'
+    project: '$(System.TeamProjectId)'
+    definition: 24
+    pipeline: 24
+    artifactName: 'api-pullrequest'
+    targetPath: '$(Pipeline.Workspace)/artifact'
+    buildVersionToDownload: latest
+
+- task: Bash@3
+  displayName: 'Deploying Serverless Azure Functions'
+  inputs:
+    targetType: 'inline'
+    workingDirectory: 'packages/api-pullrequest'
+    script: |
+      set -e
+      npx serverless deploy --package $(Pipeline.Workspace)/artifact/pdlbrd-pullrequest-api.zip
+  env:
+    COSMOS_ENDPOINT: $(COSMOS-ENDPOINT)
+    COSMOS_KEY: $(COSMOS-KEY)
+    AZURE_SUBSCRIPTION_ID: $(AZURE-SUBSCRIPTION-ID)
+    AZURE_CLIENT_ID: $(AZURE-CLIENT-ID)
+    AZURE_CLIENT_SECRET: $(AZURE-CLIENT-SECRET)
+    AZURE_TENANT_ID: $(AZURE-TENANT-ID)

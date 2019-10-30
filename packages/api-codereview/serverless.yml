@@ -1,0 +1,216 @@
+service: pdlbrd-codereview-api
+
+provider:
+  resourceGroup: wabrez-westus-dev-paddleboard
+  prefix: ${opt:prefix, 'sls'}
+  name: azure
+  region: West US
+  runtime: nodejs10.x
+  environment:
+    COSMOS_ENDPOINT: ${env:COSMOS_ENDPOINT}
+    COSMOS_KEY: ${env:COSMOS_KEY}
+  apim:
+    name: wabrez-wus-dev-pdlbrd-apim
+    apis:
+      - name: user-profile-api
+        subscriptionRequired: false
+        displayName: User Profile API
+        description: User Profile REST API
+        protocols:
+          - https
+        path: users
+        authorization: none
+      - name: current-user-api
+        subscriptionRequired: false
+        displayName: CurrentUser API
+        description: CurrentUser REST API
+        protocols:
+          - https
+        path: user
+        authorization: none
+    backends:
+      - name: codereview-user-profile-backend
+        url: api/users
+      - name: codereview-current-user-backend
+        url: api/user
+    cors:
+      allowCredentials: false
+      allowedOrigins:
+        - "*"
+      allowedMethods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - PATCH
+      allowedHeaders:
+        - "*"
+      exposeHeaders:
+        - "*"
+
+plugins:
+  - serverless-azure-functions
+  - serverless-webpack
+
+functions:
+  # Code Reviews
+  getCodeReviewListByUser:
+    handler: src/handlers/codeReview.getCodeReviewListByUser
+    events:
+      - http: true
+        x-azure-settings:
+          methods:
+            - GET
+          route: users/{userId}/reviews
+          authLevel: function
+    apim:
+      api: user-profile-api
+      backend: codereview-user-profile-backend
+      operations:
+        - method: GET
+          urlTemplate: /{userId}/reviews
+          templateParameters:
+            - name: userId
+              type: string
+
+  getCodeReviewListByCurrentUser:
+    handler: src/handlers/codeReview.getCodeReviewListByUser
+    events:
+      - http: true
+        x-azure-settings:
+          methods:
+            - GET
+          route: user/reviews
+          authLevel: function
+    apim:
+      api: current-user-api
+      backend: codereview-current-user-backend
+      operations:
+        - method: GET
+          urlTemplate: /reviews
+
+  getCodeReviewListByUserAndRepo:
+    handler: src/handlers/codeReview.getCodeReviewListByRepo
+    events:
+      - http: true
+        x-azure-settings:
+          methods:
+            - GET
+          route: users/{userId}/repos/{repositoryId}/reviews
+          authLevel: function
+    apim:
+      api: user-profile-api
+      backend: codereview-user-profile-backend
+      operations:
+        - method: GET
+          urlTemplate: /{userId}/repos/{repositoryId}/reviews
+          templateParameters:
+            - name: userId
+              type: string
+            - name: repositoryId
+              type: string
+
+  getCodeReviewListByCurrentUserAndRepo:
+    handler: src/handlers/codeReview.getCodeReviewListByRepo
+    events:
+      - http: true
+        x-azure-settings:
+          methods:
+            - GET
+          route: user/repos/{repositoryId}/reviews
+          authLevel: function
+    apim:
+      api: current-user-api
+      backend: codereview-current-user-backend
+      operations:
+        - method: GET
+          urlTemplate: /repos/{repositoryId}/reviews
+          templateParameters:
+            - name: repositoryId
+              type: string
+
+  getCodeReview:
+    handler: src/handlers/codeReview.getCodeReview
+    events:
+      - http: true
+        x-azure-settings:
+          methods:
+            - GET
+          route: users/{userId}/repos/{repositoryId}/reviews/{codeReviewId}
+          authLevel: function
+    apim:
+      api: user-profile-api
+      backend: codereview-user-profile-backend
+      operations:
+        - method: GET
+          urlTemplate: /{userId}/repos/{repositoryId}/reviews/{codeReviewId}
+          templateParameters:
+            - name: userId
+              type: string
+            - name: repositoryId
+              type: string
+            - name: codeReviewId
+              type: string
+
+  getCodeReviewByCurrentUser:
+    handler: src/handlers/codeReview.getCodeReview
+    events:
+      - http: true
+        x-azure-settings:
+          methods:
+            - GET
+          route: user/repos/{repositoryId}/reviews/{codeReviewId}
+          authLevel: function
+    apim:
+      api: current-user-api
+      backend: codereview-current-user-backend
+      operations:
+        - method: GET
+          urlTemplate: /repos/{repositoryId}/reviews/{codeReviewId}
+          templateParameters:
+            - name: repositoryId
+              type: string
+            - name: codeReviewId
+              type: string
+
+  getCodeReviewListByCategory:
+    handler: src/handlers/codeReview.getCodeReviewListByCategory
+    events:
+      - http: true
+        x-azure-settings:
+          methods:
+            - GET
+          route: users/{userId}/categories/{categoryId}/reviews
+          authLevel: function
+    apim:
+      api: user-profile-api
+      backend: codereview-user-profile-backend
+      operations:
+        - method: GET
+          urlTemplate: /{userId}/categories/{categoryId}/reviews
+          templateParameters:
+            - name: userId
+              type: string
+            - name: categoryId
+              type: string
+
+  getCodeReviewListByCurrentUserAndCategory:
+    handler: src/handlers/codeReview.getCodeReviewListByCategory
+    events:
+      - http: true
+        x-azure-settings:
+          methods:
+            - GET
+          route: user/categories/{categoryId}/reviews
+          authLevel: function
+    apim:
+      api: current-user-api
+      backend: codereview-current-user-backend
+      operations:
+        - method: GET
+          urlTemplate: /categories/{categoryId}/reviews
+          templateParameters:
+            - name: categoryId
+              type: string
+
+

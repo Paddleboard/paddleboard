@@ -1,0 +1,7 @@
+# Azure Functions files
+local.settings.json
+host.json
+
+# TypeScript output files
+src/**/*.js
+src/**/*.d.ts

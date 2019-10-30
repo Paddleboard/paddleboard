@@ -19,6 +19,9 @@
 			"path": "packages\\api-pullrequest"
 		},
 		{
+			"path": "packages\\api-codereview"
+		},
+		{
 			"path": "packages\\api-github"
 		}
 	]
