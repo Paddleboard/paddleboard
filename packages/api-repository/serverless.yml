@@ -137,14 +137,14 @@ functions:
         x-azure-settings:
           methods:
             - GET
-          route: users/{userId}/repositories/{repositoryId}
+          route: users/{userId}/repos/{repositoryId}
           authLevel: function
     apim:
       api: user-profile-api
       backend: repo-user-profile-backend
       operations:
         - method: GET
-          urlTemplate: /{userId}/repositories/{repositoryId}
+          urlTemplate: /{userId}/repos/{repositoryId}
           templateParameters:
             - name: userId
               type: string
@@ -158,14 +158,14 @@ functions:
         x-azure-settings:
           methods:
             - GET
-          route: user/repositories/{repositoryId}
+          route: user/repos/{repositoryId}
           authLevel: function
     apim:
       api: current-user-api
       backend: repo-current-user-backend
       operations:
         - method: GET
-          urlTemplate: /repositories/{repositoryId}
+          urlTemplate: /repos/{repositoryId}
           templateParameters:
             - name: repositoryId
               type: string
@@ -196,14 +196,14 @@ functions:
         x-azure-settings:
           methods:
             - PUT
-          route: users/{userId}/repositories/{repositoryId}
+          route: users/{userId}/repos/{repositoryId}
           authLevel: function
     apim:
       api: user-profile-api
       backend: repo-user-profile-backend
       operations:
         - method: PUT
-          urlTemplate: /{userId}/repositories/{repositoryId}
+          urlTemplate: /{userId}/repos/{repositoryId}
           templateParameters:
             - name: userId
               type: string
@@ -217,14 +217,14 @@ functions:
         x-azure-settings:
           methods:
             - PATCH
-          route: users/{userId}/repositories/{repositoryId}
+          route: users/{userId}/repos/{repositoryId}
           authLevel: function
     apim:
       api: user-profile-api
       backend: repo-user-profile-backend
       operations:
         - method: PATCH
-          urlTemplate: /{userId}/repositories/{repositoryId}
+          urlTemplate: /{userId}/repos/{repositoryId}
           templateParameters:
             - name: userId
               type: string
@@ -238,14 +238,14 @@ functions:
         x-azure-settings:
           methods:
             - DELETE
-          route: users/{userId}/repositories/{repositoryId}
+          route: users/{userId}/repos/{repositoryId}
           authLevel: function
     apim:
       api: user-profile-api
       backend: repo-user-profile-backend
       operations:
         - method: DELETE
-          urlTemplate: /{userId}/repositories/{repositoryId}
+          urlTemplate: /{userId}/repos/{repositoryId}
           templateParameters:
             - name: userId
               type: string

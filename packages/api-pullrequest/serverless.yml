@@ -96,14 +96,14 @@ functions:
         x-azure-settings:
           methods:
             - GET
-          route: users/{userId}/repositories/{repositoryId}/pulls
+          route: users/{userId}/repos/{repositoryId}/pulls
           authLevel: function
     apim:
       api: user-profile-api
       backend: pullrequest-user-profile-backend
       operations:
         - method: GET
-          urlTemplate: /{userId}/repositories/{repositoryId}/pulls
+          urlTemplate: /{userId}/repos/{repositoryId}/pulls
           templateParameters:
             - name: userId
               type: string
@@ -117,14 +117,14 @@ functions:
         x-azure-settings:
           methods:
             - GET
-          route: user/repositories/{repositoryId}/pulls
+          route: user/repos/{repositoryId}/pulls
           authLevel: function
     apim:
       api: current-user-api
       backend: pullrequest-current-user-backend
       operations:
         - method: GET
-          urlTemplate: /repositories/{repositoryId}/pulls
+          urlTemplate: /repos/{repositoryId}/pulls
           templateParameters:
             - name: repositoryId
               type: string
@@ -136,14 +136,14 @@ functions:
         x-azure-settings:
           methods:
             - GET
-          route: users/{userId}/repositories/{repositoryId}/pulls/{pullRequestId}
+          route: users/{userId}/repos/{repositoryId}/pulls/{pullRequestId}
           authLevel: function
     apim:
       api: user-profile-api
       backend: pullrequest-user-profile-backend
       operations:
         - method: GET
-          urlTemplate: /{userId}/repositories/{repositoryId}/pulls/{pullRequestId}
+          urlTemplate: /{userId}/repos/{repositoryId}/pulls/{pullRequestId}
           templateParameters:
             - name: userId
               type: string
@@ -159,14 +159,14 @@ functions:
         x-azure-settings:
           methods:
             - GET
-          route: user/repositories/{repositoryId}/pulls/{pullRequestId}
+          route: user/repos/{repositoryId}/pulls/{pullRequestId}
           authLevel: function
     apim:
       api: current-user-api
       backend: pullrequest-current-user-backend
       operations:
         - method: GET
-          urlTemplate: /repositories/{repositoryId}/pulls/{pullRequestId}
+          urlTemplate: /repos/{repositoryId}/pulls/{pullRequestId}
           templateParameters:
             - name: repositoryId
               type: string

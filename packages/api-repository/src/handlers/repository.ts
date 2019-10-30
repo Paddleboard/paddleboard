@@ -36,7 +36,7 @@ export const postRepository = app.use(async (context: RepositoryApiContext) => {
 
   const repoService = new RepositoryService();
   const repo = await repoService.save(repoToSave);
-  const newUri = `/users/${context.user.id}/repositories/${repo.id}`;
+  const newUri = `/users/${context.user.id}/repos/${repo.id}`;
 
   context.res.headers.set("location", newUri);
   context.send({ value: repo }, 201);
