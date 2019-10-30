@@ -1,11 +1,11 @@
 import { App } from "@multicloud/sls-core";
 import { AzureModule } from "@multicloud/sls-azure";
-import { PaddleboardCloudContext, Repository, Category } from "@paddleboard/core";
+import { PaddleboardCloudContext, PullRequest, Repository } from "@paddleboard/core";
 import { config } from "./config";
 
-export interface RepositoryApiContext extends PaddleboardCloudContext {
-  category?: Category;
-  repository: Repository;
+export interface PullRequestApiContext extends PaddleboardCloudContext {
+  pullRequest: PullRequest;
+  repository?: Repository;
 }
 
 const middlewares = config();

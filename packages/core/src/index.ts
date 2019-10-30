@@ -14,8 +14,9 @@ export * from "./services/pullRequestService";
 export * from "./services/codeReviewService";
 // Middlewares
 export * from "./middleware/userProfileValidationMiddleware";
-export * from "./middleware/repositoryValidationMiddleware";
 export * from "./middleware/categoryValidationMiddleware";
+export * from "./middleware/repositoryValidationMiddleware";
+export * from "./middleware/pullRequestValidationMiddleware";
 export * from "./middleware/cosmosMiddleware";
 export * from "./middleware/jwtMiddleware";
 export * from "./middleware/currentUserMiddleware";

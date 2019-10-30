@@ -1,0 +1,174 @@
+service: pdlbrd-pullrequest-api
+
+provider:
+  resourceGroup: wabrez-westus-dev-paddleboard
+  prefix: ${opt:prefix, 'sls'}
+  name: azure
+  region: West US
+  runtime: nodejs10.x
+  environment:
+    COSMOS_ENDPOINT: ${env:COSMOS_ENDPOINT}
+    COSMOS_KEY: ${env:COSMOS_KEY}
+  apim:
+    name: wabrez-wus-dev-pdlbrd-apim
+    apis:
+      - name: user-profile-api
+        subscriptionRequired: false
+        displayName: User Profile API
+        description: User Profile REST API
+        protocols:
+          - https
+        path: users
+        authorization: none
+      - name: current-user-api
+        subscriptionRequired: false
+        displayName: CurrentUser API
+        description: CurrentUser REST API
+        protocols:
+          - https
+        path: user
+        authorization: none
+    backends:
+      - name: pullrequest-user-profile-backend
+        url: api/users
+      - name: pullrequest-current-user-backend
+        url: api/user
+    cors:
+      allowCredentials: false
+      allowedOrigins:
+        - "*"
+      allowedMethods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - PATCH
+      allowedHeaders:
+        - "*"
+      exposeHeaders:
+        - "*"
+
+plugins:
+  - serverless-azure-functions
+  - serverless-webpack
+
+functions:
+  # Categories
+  getPullRequestListByUser:
+    handler: src/handlers/pullrequest.getPullRequestListByUser
+    events:
+      - http: true
+        x-azure-settings:
+          methods:
+            - GET
+          route: users/{userId}/pulls
+          authLevel: function
+    apim:
+      api: user-profile-api
+      backend: pullrequest-user-profile-backend
+      operations:
+        - method: GET
+          urlTemplate: /{userId}/pulls
+          templateParameters:
+            - name: userId
+              type: string
+
+  getPullRequestListByCurrentUser:
+    handler: src/handlers/pullrequest.getPullRequestListByUser
+    events:
+      - http: true
+        x-azure-settings:
+          methods:
+            - GET
+          route: user/pulls
+          authLevel: function
+    apim:
+      api: current-user-api
+      backend: pullrequest-current-user-backend
+      operations:
+        - method: GET
+          urlTemplate: /pulls
+
+  getPullRequestListByUserAndRepo:
+    handler: src/handlers/pullrequest.getPullRequestListByRepo
+    events:
+      - http: true
+        x-azure-settings:
+          methods:
+            - GET
+          route: users/{userId}/repositories/{repositoryId}/pulls
+          authLevel: function
+    apim:
+      api: user-profile-api
+      backend: pullrequest-user-profile-backend
+      operations:
+        - method: GET
+          urlTemplate: /{userId}/repositories/{repositoryId}/pulls
+          templateParameters:
+            - name: userId
+              type: string
+            - name: repositoryId
+              type: string
+
+  getPullRequestListByCurrentUserAndRepo:
+    handler: src/handlers/pullrequest.getPullRequestListByRepo
+    events:
+      - http: true
+        x-azure-settings:
+          methods:
+            - GET
+          route: user/repositories/{repositoryId}/pulls
+          authLevel: function
+    apim:
+      api: current-user-profile-api
+      backend: pullrequest-current-user-backend
+      operations:
+        - method: GET
+          urlTemplate: /repositories/{repositoryId}/pulls
+          templateParameters:
+            - name: repositoryId
+              type: string
+
+  getPullRequest:
+    handler: src/handlers/pullrequest.getPullRequest
+    events:
+      - http: true
+        x-azure-settings:
+          methods:
+            - GET
+          route: users/{userId}/repositories/{repositoryId}/pulls/{pullRequestId}
+          authLevel: function
+    apim:
+      api: user-profile-api
+      backend: pullrequest-user-profile-backend
+      operations:
+        - method: GET
+          urlTemplate: /{userId}/repositories/{repositoryId}/pulls/{pullRequestId}
+          templateParameters:
+            - name: userId
+              type: string
+            - name: repositoryId
+              type: string
+            - name: pullRequestId
+              type: string
+
+  getPullRequestByCurrentUser:
+    handler: src/handlers/pullrequest.getPullRequest
+    events:
+      - http: true
+        x-azure-settings:
+          methods:
+            - GET
+          route: user/repositories/{repositoryId}/pulls/{pullRequestId}
+          authLevel: function
+    apim:
+      api: current-user-api
+      backend: pullrequest-current-user-backend
+      operations:
+        - method: GET
+          urlTemplate: /repositories/{repositoryId}/pulls/{pullRequestId}
+          templateParameters:
+            - name: repositoryId
+              type: string
+            - name: pullRequestId
+              type: string

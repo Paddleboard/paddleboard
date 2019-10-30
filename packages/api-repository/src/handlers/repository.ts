@@ -1,33 +1,30 @@
 import { app, RepositoryApiContext } from "../app";
-import { config } from "../config"
-import { UserRepositoryService, RepositoryService, UserProfileValidationMiddleware, RepositoryValidationMiddleware, CategoryValidationMiddleware, Repository } from "@paddleboard/core";
+import { UserRepositoryService, RepositoryService, RepositoryValidationMiddleware, CategoryValidationMiddleware, Repository } from "@paddleboard/core";
 import { CloudContext } from "@multicloud/sls-core";
 import { StorageQueueMiddleware } from "@multicloud/sls-azure";
 
-const middlewares = config();
-const userProfileValidation = UserProfileValidationMiddleware();
 const categoryValidation = CategoryValidationMiddleware();
 const repoValidation = RepositoryValidationMiddleware();
 
-export const getRepositoryListByUser = app.use([...middlewares, userProfileValidation], async (context: RepositoryApiContext) => {
+export const getRepositoryListByUser = app.use(async (context: RepositoryApiContext) => {
   const repoService = new UserRepositoryService();
   const repos = await repoService.getByUser(context.user.id);
 
   context.send({ value: repos }, 200);
 });
 
-export const getRepositoryListByUserAndCategory = app.use([...middlewares, categoryValidation], async (context: RepositoryApiContext) => {
+export const getRepositoryListByUserAndCategory = app.use([categoryValidation], async (context: RepositoryApiContext) => {
   const repoService = new UserRepositoryService();
   const repos = await repoService.getByCategory(context.user.id, context.category.id);
 
   context.send({ value: repos }, 200);
 });
 
-export const getRepository = app.use([...middlewares, repoValidation], (context: RepositoryApiContext) => {
+export const getRepository = app.use([repoValidation], (context: RepositoryApiContext) => {
   context.send({ value: context.repository }, 200);
 });
 
-export const postRepository = app.use([...middlewares, userProfileValidation], async (context: RepositoryApiContext) => {
+export const postRepository = app.use(async (context: RepositoryApiContext) => {
   if (!context.req.body) {
     return context.send({ message: "repository is required" }, 400);
   }
@@ -45,7 +42,7 @@ export const postRepository = app.use([...middlewares, userProfileValidation], a
   context.send({ value: repo }, 201);
 });
 
-export const putRepository = app.use([...middlewares, repoValidation], async (context: RepositoryApiContext) => {
+export const putRepository = app.use([repoValidation], async (context: RepositoryApiContext) => {
   const repoToSave = {
     ...context.req.body,
     id: context.repository.id,
@@ -58,7 +55,7 @@ export const putRepository = app.use([...middlewares, repoValidation], async (co
   context.send(null, 204);
 });
 
-export const patchRepository = app.use([...middlewares, repoValidation], async (context: RepositoryApiContext) => {
+export const patchRepository = app.use([repoValidation], async (context: RepositoryApiContext) => {
   const repoToSave = {
     ...context.user,
     ...context.req.body,
@@ -72,7 +69,7 @@ export const patchRepository = app.use([...middlewares, repoValidation], async (
   context.send(null, 204);
 });
 
-export const deleteRepository = app.use([...middlewares, repoValidation], async (context: RepositoryApiContext) => {
+export const deleteRepository = app.use([repoValidation], async (context: RepositoryApiContext) => {
   const userService = new RepositoryService();
   await userService.delete(context.repository.id, context.user.id);
 

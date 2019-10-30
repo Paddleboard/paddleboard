@@ -7,16 +7,19 @@
 			"path": "packages\\dashboard"
 		},
 		{
-			"path": "packages\\api-userprofile
+			"path": "packages\\api-userprofile"
 		},
 		{
-			"path": "packages\\api-repository
+			"path": "packages\\api-category"
 		},
 		{
-			"path": "packages\\api-github
+			"path": "packages\\api-repository"
 		},
 		{
-			"path": "packages\\api-category
+			"path": "packages\\api-pullrequest"
+		},
+		{
+			"path": "packages\\api-github"
 		}
 	]
 }

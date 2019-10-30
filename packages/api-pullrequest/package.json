@@ -1,0 +1,68 @@
+{
+  "name": "@paddleboard/pullrequest-api",
+  "version": "1.0.0",
+  "description": "Paddleboard Pull Request REST API",
+  "author": "Wallace Breza",
+  "homepage": "https://github.com/wbreza/paddleboard#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wbreza/paddleboard"
+  },
+  "bugs": {
+    "url": "https://github.com/wbreza/paddleboard/issues"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "scripts": {
+    "clean": "rimraf lib && rimraf src/**/*.js && rimraf src/**/*.d.ts",
+    "start": "npm run test -- --watch",
+    "prelint": "npm run clean",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "npm run lint -- --fix",
+    "pretest": "npm run lint",
+    "test": "jest",
+    "test:ci": "npm run test -- --ci",
+    "test:coverage": "npm run test -- --coverage",
+    "prebuild": "npm run clean && npm run test",
+    "build": "npx tsc",
+    "preoffline": "npm run build",
+    "offline": "sls offline",
+    "sync": "npm run sync:paddleboard && npm run sync:multicloud && npm run sync:serverless",
+    "sync:multicloud": "npm install @multicloud/sls-core@beta @multicloud/sls-azure@beta",
+    "sync:paddleboard": "npm install @paddleboard/core@beta",
+    "sync:serverless": "npm install serverless-azure-functions@beta --save-dev",
+    "package": "cross-env NODE_ENV=production BABEL_ENV=production npx serverless package",
+    "webpack": "cross-env NODE_ENV=production BABEL_ENV=production npx serverless webpack",
+    "deploy": "cross-env NODE_ENV=production BABEL_ENV=production npx serverless deploy"
+  },
+  "dependencies": {
+    "@multicloud/sls-azure": "^0.1.1-13",
+    "@multicloud/sls-core": "^0.1.1-24",
+    "@paddleboard/core": "^1.0.2-7",
+    "shortid": "^2.2.15"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "@types/dotenv": "^6.1.1",
+    "@types/jest": "^24.0.13",
+    "@types/node": "12.0.8",
+    "@types/shortid": "0.0.29",
+    "@typescript-eslint/eslint-plugin": "^1.9.0",
+    "@typescript-eslint/parser": "^1.9.0",
+    "babel-jest": "^24.8.0",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-transform-typescript-metadata": "0.2.2",
+    "babel-preset-react-app": "^9.0.0",
+    "cross-env": "^6.0.0",
+    "dotenv": "^8.1.0",
+    "eslint": "^5.16.0",
+    "jest": "^24.8.0",
+    "rimraf": "^3.0.0",
+    "serverless-azure-functions": "^1.0.2-13",
+    "serverless-webpack": "^5.3.1",
+    "shx": "^0.3.2",
+    "typescript": "^3.5.2",
+    "webpack": "^4.41.0"
+  }
+}

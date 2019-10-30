@@ -8,6 +8,10 @@ const userProfileValidation = UserProfileValidationMiddleware();
 export const CategoryValidationMiddleware = (): Middleware => async (context: PaddleboardCloudContext, next: () => Promise<void>) => {
   await userProfileValidation(context, () => Promise.resolve());
 
+  if (!context.user) {
+    return;
+  }
+
   if (!context.req.pathParams.has("categoryId")) {
     return context.send({ message: "categoryId is required" }, 400);
   }
