@@ -17,7 +17,7 @@ export const UserProfileValidationMiddleware = (): Middleware => async (context:
   const user = await userProfileService.get(userId);
 
   if (!user) {
-    return context.send({ message: "userId not found" }, 404);
+    return context.send({ message: "user not found" }, 404);
   }
 
   context.user = user;

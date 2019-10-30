@@ -11,7 +11,7 @@ pr:
       - dev
   paths:
     include:
-      - packages/api-pullrequest
+      - packages/api-codereview
 
 variables:
   - group: BackendResources
@@ -29,13 +29,13 @@ steps:
   displayName: 'Install dependencies'
   inputs:
     command: 'ci'
-    workingDir: 'packages/api-pullrequest'
+    workingDir: 'packages/api-codereview'
 
 - task: Npm@1
   displayName: 'Linting & Testing'
   inputs:
     command: 'custom'
-    workingDir: 'packages/api-pullrequest'
+    workingDir: 'packages/api-codereview'
     customCommand: 'run test'
   env:
     COSMOS_ENDPOINT: $(COSMOS-ENDPOINT)
@@ -45,7 +45,7 @@ steps:
   displayName: 'Build'
   inputs:
     command: 'custom'
-    workingDir: 'packages/api-pullrequest'
+    workingDir: 'packages/api-codereview'
     customCommand: 'run build'
   env:
     COSMOS_ENDPOINT: $(COSMOS-ENDPOINT)

@@ -1,31 +1,23 @@
 import { app, CodeReviewApiContext } from "../app";
-import { PullRequestService, PullRequestValidationMiddleware, RepositoryValidationMiddleware, CategoryValidationMiddleware } from "@paddleboard/core";
+import { CodeReviewService, CodeReviewValidationMiddleware, PullRequestValidationMiddleware } from "@paddleboard/core";
 
-const categoryValidation = CategoryValidationMiddleware();
-const repoValidation = RepositoryValidationMiddleware();
-const pullValidation = PullRequestValidationMiddleware();
+const pullRequestValidation = PullRequestValidationMiddleware();
+const codeReviewValidation = CodeReviewValidationMiddleware();
 
-export const getPullRequestListByUser = app.use(async (context: CodeReviewApiContext) => {
-  const pullRequestService = new PullRequestService();
-  const pulls = await pullRequestService.getByUser(context.user.id);
+export const getCodeReviewListByUser = app.use(async (context: CodeReviewApiContext) => {
+  const codeReviewService = new CodeReviewService();
+  const reviews = await codeReviewService.getByUser(context.user.id);
 
-  return { value: pulls };
+  return { value: reviews };
 });
 
-export const getPullRequestListByRepo = app.use([repoValidation], async (context: CodeReviewApiContext) => {
-  const pullRequestService = new PullRequestService();
-  const pulls = await pullRequestService.getByRepository(context.repository.id);
+export const getCodeReviewListByPullRequest = app.use([pullRequestValidation], async (context: CodeReviewApiContext) => {
+  const codeReviewService = new CodeReviewService();
+  const reviews = await codeReviewService.getByPullRequest(context.pullRequest.id);
 
-  return { value: pulls };
+  return { value: reviews };
 });
 
-export const getPullRequestListByCategory = app.use([categoryValidation], async (context: CodeReviewApiContext) => {
-  const pullRequestService = new PullRequestService();
-  const pulls = await pullRequestService.getByCategory(context.user.id, context.category.id);
-
-  return { value: pulls };
-});
-
-export const getPullRequest = app.use([pullValidation], (context: CodeReviewApiContext) => {
-  return { value: context.pullRequest };
+export const getCodeReview = app.use([codeReviewValidation], (context: CodeReviewApiContext) => {
+  return { value: context.codeReview };
 });

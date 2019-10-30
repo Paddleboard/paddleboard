@@ -89,44 +89,48 @@ functions:
         - method: GET
           urlTemplate: /reviews
 
-  getCodeReviewListByUserAndRepo:
-    handler: src/handlers/codeReview.getCodeReviewListByRepo
+  getCodeReviewListByPullRequest:
+    handler: src/handlers/codeReview.getCodeReviewListByPullRequest
     events:
       - http: true
         x-azure-settings:
           methods:
             - GET
-          route: users/{userId}/repos/{repositoryId}/reviews
+          route: users/{userId}/repos/{repositoryId}/pulls/{pullRequestId}/reviews
           authLevel: function
     apim:
       api: user-profile-api
       backend: codereview-user-profile-backend
       operations:
         - method: GET
-          urlTemplate: /{userId}/repos/{repositoryId}/reviews
+          urlTemplate: /{userId}/repos/{repositoryId}/pulls/{pullRequestId}/reviews
           templateParameters:
             - name: userId
               type: string
             - name: repositoryId
               type: string
+            - name: pullRequestId
+              type: string
 
-  getCodeReviewListByCurrentUserAndRepo:
-    handler: src/handlers/codeReview.getCodeReviewListByRepo
+  getCodeReviewListByCurrentUserAndPullRequest:
+    handler: src/handlers/codeReview.getCodeReviewListByPullRequest
     events:
       - http: true
         x-azure-settings:
           methods:
             - GET
-          route: user/repos/{repositoryId}/reviews
+          route: user/repos/{repositoryId}/pulls/{pullRequestId}/reviews
           authLevel: function
     apim:
       api: current-user-api
       backend: codereview-current-user-backend
       operations:
         - method: GET
-          urlTemplate: /repos/{repositoryId}/reviews
+          urlTemplate: /repos/{repositoryId}/pulls/{pullRequestId}/reviews
           templateParameters:
             - name: repositoryId
+              type: string
+            - name: pullRequestId
               type: string
 
   getCodeReview:
@@ -136,18 +140,20 @@ functions:
         x-azure-settings:
           methods:
             - GET
-          route: users/{userId}/repos/{repositoryId}/reviews/{codeReviewId}
+          route: users/{userId}/repos/{repositoryId}/pulls/{pullRequestId}/reviews/{codeReviewId}
           authLevel: function
     apim:
       api: user-profile-api
       backend: codereview-user-profile-backend
       operations:
         - method: GET
-          urlTemplate: /{userId}/repos/{repositoryId}/reviews/{codeReviewId}
+          urlTemplate: /{userId}/repos/{repositoryId}/pulls/{pullRequestId}/reviews/{codeReviewId}
           templateParameters:
             - name: userId
               type: string
             - name: repositoryId
+              type: string
+            - name: pullRequestId
               type: string
             - name: codeReviewId
               type: string
@@ -159,58 +165,18 @@ functions:
         x-azure-settings:
           methods:
             - GET
-          route: user/repos/{repositoryId}/reviews/{codeReviewId}
+          route: user/repos/{repositoryId}/pulls/{pullRequestId}/reviews/{codeReviewId}
           authLevel: function
     apim:
       api: current-user-api
       backend: codereview-current-user-backend
       operations:
         - method: GET
-          urlTemplate: /repos/{repositoryId}/reviews/{codeReviewId}
+          urlTemplate: /repos/{repositoryId}/pulls/{pullRequestId}/reviews/{codeReviewId}
           templateParameters:
             - name: repositoryId
               type: string
+            - name: pullRequestId
+              type: string
             - name: codeReviewId
               type: string
-
-  getCodeReviewListByCategory:
-    handler: src/handlers/codeReview.getCodeReviewListByCategory
-    events:
-      - http: true
-        x-azure-settings:
-          methods:
-            - GET
-          route: users/{userId}/categories/{categoryId}/reviews
-          authLevel: function
-    apim:
-      api: user-profile-api
-      backend: codereview-user-profile-backend
-      operations:
-        - method: GET
-          urlTemplate: /{userId}/categories/{categoryId}/reviews
-          templateParameters:
-            - name: userId
-              type: string
-            - name: categoryId
-              type: string
-
-  getCodeReviewListByCurrentUserAndCategory:
-    handler: src/handlers/codeReview.getCodeReviewListByCategory
-    events:
-      - http: true
-        x-azure-settings:
-          methods:
-            - GET
-          route: user/categories/{categoryId}/reviews
-          authLevel: function
-    apim:
-      api: current-user-api
-      backend: codereview-current-user-backend
-      operations:
-        - method: GET
-          urlTemplate: /categories/{categoryId}/reviews
-          templateParameters:
-            - name: categoryId
-              type: string
-
-

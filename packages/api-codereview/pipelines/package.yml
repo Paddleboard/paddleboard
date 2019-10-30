@@ -9,7 +9,7 @@ trigger:
       - master
   paths:
     include:
-      - packages/api-pullrequest
+      - packages/api-codereview
 
 pr: none
 
@@ -29,13 +29,13 @@ steps:
   displayName: 'Install dependencies'
   inputs:
     command: 'ci'
-    workingDir: 'packages/api-pullrequest'
+    workingDir: 'packages/api-codereview'
 
 - task: Npm@1
   displayName: 'Linting & Testing'
   inputs:
     command: 'custom'
-    workingDir: 'packages/api-pullrequest'
+    workingDir: 'packages/api-codereview'
     customCommand: 'run test'
   env:
     COSMOS_ENDPOINT: $(COSMOS-ENDPOINT)
@@ -45,7 +45,7 @@ steps:
   displayName: 'Build'
   inputs:
     command: 'custom'
-    workingDir: 'packages/api-pullrequest'
+    workingDir: 'packages/api-codereview'
     customCommand: 'run build'
   env:
     COSMOS_ENDPOINT: $(COSMOS-ENDPOINT)
@@ -55,11 +55,11 @@ steps:
   displayName: 'Package'
   inputs:
     command: 'custom'
-    workingDir: 'packages/api-pullrequest'
+    workingDir: 'packages/api-codereview'
     customCommand: 'run package'
 
 - task: PublishPipelineArtifact@1
   displayName: 'Publish Build Artifact'
   inputs:
-    targetPath: 'packages/api-pullrequest/.serverless'
-    artifactName: 'api-pullrequest'
+    targetPath: 'packages/api-codereview/.serverless'
+    artifactName: 'api-codereview'
