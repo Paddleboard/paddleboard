@@ -23,16 +23,16 @@ steps:
   displayName: 'Install dependencies'
   inputs:
     command: 'ci'
-    workingDir: 'packages/api-category'
+    workingDir: 'packages/api-pullrequest'
 
 - task: DownloadPipelineArtifact@2
   displayName: 'Download Build Artifact'
   inputs:
     buildType: 'specific'
     project: '$(System.TeamProjectId)'
-    definition: 15
-    pipeline: 15
-    artifactName: 'api-category'
+    definition: 24
+    pipeline: 24
+    artifactName: 'api-pullrequest'
     targetPath: '$(Pipeline.Workspace)/artifact'
     buildVersionToDownload: latest
 
@@ -40,10 +40,10 @@ steps:
   displayName: 'Deploying Serverless Azure Functions'
   inputs:
     targetType: 'inline'
-    workingDirectory: 'packages/api-category'
+    workingDirectory: 'packages/api-pullrequest'
     script: |
       set -e
-      npx serverless deploy --package $(Pipeline.Workspace)/artifact/pdlbrd-category-api.zip
+      npx serverless deploy --package $(Pipeline.Workspace)/artifact/pdlbrd-pullrequest-api.zip
   env:
     COSMOS_ENDPOINT: $(COSMOS-ENDPOINT)
     COSMOS_KEY: $(COSMOS-KEY)
