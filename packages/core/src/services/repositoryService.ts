@@ -1,5 +1,5 @@
 import { DataServiceBase } from "./dataService";
-import { Repository } from "../models/app";
+import { Repository } from "@paddleboard/contracts";
 
 /**
  * Manages global repositories within paddleboard

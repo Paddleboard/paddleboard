@@ -1,5 +1,5 @@
 import { DataServiceOptions, DataServiceBase } from "./dataService";
-import { Entity } from "../models/app";
+import { Entity } from "@paddleboard/contracts";
 import shortid from "shortid";
 
 export class ChildDataService<P extends Entity, C extends Entity> {

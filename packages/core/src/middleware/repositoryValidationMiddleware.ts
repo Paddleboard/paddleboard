@@ -1,6 +1,6 @@
 import { RepositoryService } from "../services/repositoryService";
 import { UserProfileValidationMiddleware } from "./userProfileValidationMiddleware";
-import { PaddleboardCloudContext } from "../models/paddleboardCloudContext";
+import { PaddleboardCloudContext } from "@paddleboard/contracts";
 import { Middleware } from "@multicloud/sls-core";
 
 const userProfileValidation = UserProfileValidationMiddleware();

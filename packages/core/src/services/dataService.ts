@@ -1,7 +1,7 @@
 
 import { CosmosClient, Database, Container, CosmosClientOptions, SqlQuerySpec, ContainerDefinition, DatabaseDefinition } from "@azure/cosmos";
 import shortid from "shortid";
-import { Entity } from "../models/app";
+import { Entity } from "@paddleboard/contracts";
 
 export interface DataService<T extends Entity> {
   get: (id: string, partitionKey?: string) => Promise<T>;

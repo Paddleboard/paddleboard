@@ -1,6 +1,6 @@
 import { CategoryService } from "../services/categoryService";
 import { UserProfileValidationMiddleware } from "./userProfileValidationMiddleware";
-import { PaddleboardCloudContext } from "../models/paddleboardCloudContext";
+import { PaddleboardCloudContext } from "@paddleboard/contracts"
 import { Middleware } from "@multicloud/sls-core";
 
 const userProfileValidation = UserProfileValidationMiddleware();

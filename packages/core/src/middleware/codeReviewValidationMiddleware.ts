@@ -1,4 +1,4 @@
-import { PaddleboardCloudContext } from "../models/paddleboardCloudContext";
+import { PaddleboardCloudContext } from "@paddleboard/contracts";
 import { Middleware } from "@multicloud/sls-core";
 import { PullRequestValidationMiddleware } from "./pullRequestValidationMiddleware";
 import { CodeReviewService } from "../services/codeReviewService";

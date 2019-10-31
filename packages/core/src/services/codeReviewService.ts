@@ -1,5 +1,5 @@
 import { DataServiceBase, DataListOptions } from "./dataService";
-import { CodeReview } from "../models/app";
+import { CodeReview } from "@paddleboard/contracts";
 import Guard from "../guard";
 
 /**

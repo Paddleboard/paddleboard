@@ -1,6 +1,6 @@
 import { JwtMiddleware } from "./jwtMiddleware";
 import { CloudContextBuilder } from "@multicloud/sls-core";
-import { PaddleboardCloudContext } from "../models/paddleboardCloudContext";
+import { PaddleboardCloudContext } from "@paddleboard/contracts";
 
 describe("JWT Middleware", () => {
   it("decodes and sets context", async () => {

@@ -1,4 +1,4 @@
-import { Category, UserProfile } from "../models/app";
+import { Category, UserProfile } from "@paddleboard/contracts";
 import { ChildDataService } from "./childDataService";
 import Guard from "../guard";
 

@@ -1,5 +1,5 @@
 import { UserProfileService } from "../services/userProfileService";
-import { PaddleboardCloudContext } from "../models/paddleboardCloudContext";
+import { PaddleboardCloudContext } from "@paddleboard/contracts";
 import { Middleware } from "@multicloud/sls-core";
 
 export const UserProfileValidationMiddleware = (): Middleware => async (context: PaddleboardCloudContext, next: () => Promise<void>) => {

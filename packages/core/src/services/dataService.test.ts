@@ -4,7 +4,7 @@ import { DeveloperAccountService } from "./developerAccountService";
 import { CategoryService } from "./categoryService";
 import { PullRequestService } from "./pullRequestService";
 import { CodeReviewService } from "./codeReviewService";
-import { UserProfile, Category, Repository, DeveloperAccount, DeveloperAccountType, CodeReview, PullRequest, PullRequestState, CodeReviewState } from "../models/app";
+import { UserProfile, Category, Repository, DeveloperAccount, DeveloperAccountType, CodeReview, PullRequest, PullRequestState, CodeReviewState } from "@paddleboard/contracts";
 import { UserRepositoryService } from "./userRepositoryService";
 
 jest.setTimeout(10000);

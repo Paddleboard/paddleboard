@@ -1,4 +1,4 @@
-import { PaddleboardCloudContext } from "../models/paddleboardCloudContext";
+import { PaddleboardCloudContext } from "@paddleboard/contracts";
 import jsonwebtoken from "jsonwebtoken";
 import { Middleware } from "@multicloud/sls-core";
 

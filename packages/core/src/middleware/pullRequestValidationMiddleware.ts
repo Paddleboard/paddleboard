@@ -1,6 +1,6 @@
 import { PullRequestService } from "../services/pullRequestService";
 import { RepositoryValidationMiddleware } from "./repositoryValidationMiddleware";
-import { PaddleboardCloudContext } from "../models/paddleboardCloudContext";
+import { PaddleboardCloudContext } from "@paddleboard/contracts";
 import { Middleware } from "@multicloud/sls-core";
 
 const repositoryValidation = RepositoryValidationMiddleware();

@@ -1,5 +1,5 @@
 import { DataServiceBase } from "./dataService";
-import { UserProfile } from "../models/app";
+import { UserProfile } from "@paddleboard/contracts";
 import Guard from "../guard";
 
 /**

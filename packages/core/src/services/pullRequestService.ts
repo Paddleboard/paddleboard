@@ -1,5 +1,5 @@
 import { DataServiceBase, DataListOptions } from "./dataService";
-import { PullRequest, Repository } from "../models/app";
+import { PullRequest, Repository } from "@paddleboard/contracts";
 import { UserRepositoryService } from "./userRepositoryService";
 import { SqlQuerySpec } from "@azure/cosmos";
 import Guard from "../guard";

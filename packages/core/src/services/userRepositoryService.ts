@@ -1,4 +1,4 @@
-import { Repository, UserProfile } from "../models/app";
+import { Repository, UserProfile } from "@paddleboard/contracts";
 import { ChildDataService } from "./childDataService";
 import { Guard } from "@multicloud/sls-core";
 

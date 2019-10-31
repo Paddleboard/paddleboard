@@ -1,4 +1,4 @@
-import { PaddleboardCloudContext } from "../models/paddleboardCloudContext";
+import { PaddleboardCloudContext } from "@paddleboard/contracts";
 import { UserProfileService } from "../services/userProfileService";
 import { Middleware } from "@multicloud/sls-core";
 

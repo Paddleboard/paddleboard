@@ -1,4 +1,4 @@
-import { DeveloperAccount, UserProfile } from "../models/app";
+import { DeveloperAccount, UserProfile } from "@paddleboard/contracts";
 import { ChildDataService } from "./childDataService";
 
 /**
