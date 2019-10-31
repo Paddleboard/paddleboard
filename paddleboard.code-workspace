@@ -1,7 +1,13 @@
 {
 	"folders": [
 		{
+			"path": "packages\\contracts"
+		},
+		{
 			"path": "packages\\core"
+		},
+		{
+			"path": "packages\\github"
 		},
 		{
 			"path": "packages\\dashboard"
