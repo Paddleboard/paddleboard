@@ -1,6 +1,7 @@
 import shortid from "shortid";
 import { CloudContextBuilder } from "@multicloud/sls-core";
-import { UserRepositoryService, Repository, UserProfile, UserProfileService, DeveloperAccountType } from "@paddleboard/core";
+import { UserRepositoryService, UserProfileService } from "@paddleboard/core";
+import { Repository, UserProfile, DeveloperAccountType } from "@paddleboard/contracts";
 import { getRepositoryListByUser } from "./repository";
 
 describe("Repository Handlers", () => {

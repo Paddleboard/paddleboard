@@ -1,4 +1,4 @@
-import { GitHubService } from "@paddleboard/core";
+import { GitHubService } from "@paddleboard/github";
 import { GitHubApiContext } from "../app";
 
 export const GitHubMiddleware = () => async (context: GitHubApiContext, next: () => Promise<void>) => {

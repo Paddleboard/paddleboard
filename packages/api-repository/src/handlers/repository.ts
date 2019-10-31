@@ -1,5 +1,6 @@
 import { app, RepositoryApiContext } from "../app";
-import { UserRepositoryService, RepositoryService, RepositoryValidationMiddleware, CategoryValidationMiddleware, Repository } from "@paddleboard/core";
+import { UserRepositoryService, RepositoryService, RepositoryValidationMiddleware, CategoryValidationMiddleware } from "@paddleboard/core";
+import { Repository } from "@paddleboard/contracts";
 import { CloudContext } from "@multicloud/sls-core";
 import { StorageQueueMiddleware } from "@multicloud/sls-azure";
 

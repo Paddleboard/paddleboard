@@ -1,7 +1,8 @@
 import shortid from "shortid";
 import { CloudContextBuilder } from "@multicloud/sls-core";
 import { getPullRequestListByUser } from "./pullRequest";
-import { UserProfileService, PullRequestService, PullRequest, UserProfile, PullRequestState } from "@paddleboard/core";
+import { UserProfileService, PullRequestService } from "@paddleboard/core";
+import { PullRequest, UserProfile, PullRequestState } from "@paddleboard/contracts";
 
 describe("Pull Request Handlers", () => {
   let userProfile: UserProfile;
