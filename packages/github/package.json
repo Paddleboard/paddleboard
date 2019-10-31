@@ -1,0 +1,60 @@
+{
+  "name": "@paddleboard/github",
+  "version": "1.0.2-9",
+  "description": "Paddleboard core components",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wbreza/paddleboard"
+  },
+  "keywords": [],
+  "author": "Wallace Breza",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "clean": "shx rm -rf lib/",
+    "start": "npm run test -- --watch",
+    "prelint": "npm run clean",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "npm run lint -- --fix",
+    "pretest": "npm run lint",
+    "test": "jest",
+    "test:ci": "npm run test -- --ci",
+    "test:coverage": "npm run test -- --coverage",
+    "prebuild": "npm run test",
+    "build": "npx tsc",
+    "offline": "sls offline",
+    "sync": "npm run sync:paddleboard",
+    "sync:paddleboard": "npm install @paddleboard/contracts@beta"
+  },
+  "files": [
+    "lib/"
+  ],
+  "dependencies": {
+    "@paddleboard/contracts": "^1.0.2-11",
+    "axios": "^0.19.0",
+    "dotenv": "^8.2.0",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {
+    "@types/axios-mock-adapter": "^1.10.0",
+    "@types/dotenv": "^6.1.1",
+    "@types/jest": "^24.0.13",
+    "@types/jsonwebtoken": "^8.3.4",
+    "@types/node": "12.0.8",
+    "@typescript-eslint/eslint-plugin": "^1.9.0",
+    "@typescript-eslint/parser": "^1.9.0",
+    "axios-mock-adapter": "^1.17.0",
+    "babel-jest": "^24.8.0",
+    "babel-plugin-transform-typescript-metadata": "0.2.2",
+    "babel-preset-react-app": "^9.0.0",
+    "eslint": "^5.16.0",
+    "jest": "^24.8.0",
+    "shx": "^0.3.2",
+    "typescript": "^3.5.2"
+  },
+  "engines": {
+    "node": ">=8.16.0",
+    "npm": ">=6.4.1"
+  }
+}
