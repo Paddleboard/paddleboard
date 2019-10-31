@@ -1,15 +1,12 @@
 import { StorageQueueMiddleware } from "@multicloud/sls-azure";
 import { app, GitHubApiContext } from "../app";
-import { config } from "../config"
-import { DeveloperAccountService, QueueService, Repository, DeveloperAccountType } from "@paddleboard/core";
-import { GitHubMiddleware } from "../middleware/githubMiddleware";
-
-const middlewares = [...config(), GitHubMiddleware()];
+import { DeveloperAccount, Repository, DeveloperAccountType } from "@paddleboard/contracts";
+import { QueueService } from "@paddleboard/core";
 
 /**
  * Called when the Github app is installed an authorized on an account
  */
-export const authorize = app.use(middlewares, async (context: GitHubApiContext) => {
+export const authorize = app.use(async (context: GitHubApiContext) => {
   const code = context.req.query.get("code");
   if (!code) {
     return context.send("Invalid request", 400);
@@ -23,12 +20,16 @@ export const authorize = app.use(middlewares, async (context: GitHubApiContext) 
     queueName: "github-installations"
   });
 
-  const accountService = new DeveloperAccountService();
   const userAccessToken = await context.github.getUserAccessToken(code);
   const githubAccount = await context.github.getUserAccount(userAccessToken);
+  const devAccount: DeveloperAccount = {
+    providerType: DeveloperAccountType.GitHub,
+    providerId: githubAccount.id,
+    metadata: githubAccount
+  };
 
   const installPayload = {
-    account: githubAccount,
+    account: devAccount,
     installationId: installationId
   };
 
@@ -41,14 +42,14 @@ export const authorize = app.use(middlewares, async (context: GitHubApiContext) 
 /**
  * Called when a github event fires (ex. pull request created / updated)
  */
-export const hook = app.use(middlewares, (context: GitHubApiContext) => {
+export const hook = app.use((context: GitHubApiContext) => {
   context.send("OK", 200);
 });
 
 /**
  * Called when github app installations are created
  */
-export const install = app.use([GitHubMiddleware(), StorageQueueMiddleware()], async (context: GitHubApiContext) => {
+export const install = app.use([StorageQueueMiddleware()], async (context: GitHubApiContext) => {
   if (!(context.event && context.event.records)) {
     return context.send({ message: "event is required" }, 500);
   }
@@ -62,7 +63,7 @@ export const install = app.use([GitHubMiddleware(), StorageQueueMiddleware()], a
   const events: [] = context.event.records;
 
   await events.forEachAsync(async (event: any) => {
-    const account: Account = event.body.account;
+    const account: DeveloperAccount = event.body.account;
     const repositories = await context.github.getRepositories(event.body.installationId);
 
     // Queue repo tasks for each mapped repository

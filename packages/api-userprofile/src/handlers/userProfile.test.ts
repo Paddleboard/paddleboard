@@ -1,7 +1,8 @@
 import shortid from "shortid";
 import { CloudContextBuilder } from "@multicloud/sls-core";
 import { getUserProfileList } from "./userProfile";
-import { UserProfileService, UserProfile } from "@paddleboard/core";
+import { UserProfileService } from "@paddleboard/core";
+import { UserProfile } from "@paddleboard/contracts";
 
 describe("User Profile Handlers", () => {
   let users: UserProfile[];
@@ -11,7 +12,11 @@ describe("User Profile Handlers", () => {
       id: shortid.generate(),
       firstName: "Wallace",
       lastName: "Breza",
-      email: "wallace@breza.me"
+      email: "wallace@breza.me",
+      identity: {
+        externalId: "wbreza",
+        type: "github.com"
+      }
     }];
 
     UserProfileService.prototype.list = jest.fn(() => Promise.resolve(users));

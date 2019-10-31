@@ -1,6 +1,6 @@
 import { App } from "@multicloud/sls-core";
 import { AzureModule } from "@multicloud/sls-azure";
-import { PaddleboardCloudContext, PullRequest, Repository } from "@paddleboard/core";
+import { PaddleboardCloudContext, PullRequest, Repository } from "@paddleboard/contracts";
 import { config } from "./config";
 
 export interface CodeReviewApiContext extends PaddleboardCloudContext {

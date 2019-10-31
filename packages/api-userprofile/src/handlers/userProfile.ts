@@ -1,5 +1,6 @@
 import { app } from "../app";
-import { PaddleboardCloudContext, UserProfileService, UserProfileValidationMiddleware, DeveloperAccountService, UserProfile } from "@paddleboard/core";
+import { UserProfileService, UserProfileValidationMiddleware, DeveloperAccountService } from "@paddleboard/core";
+import { PaddleboardCloudContext, UserProfile } from "@paddleboard/contracts"
 
 const userValidation = UserProfileValidationMiddleware();
 
