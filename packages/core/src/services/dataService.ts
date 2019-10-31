@@ -28,6 +28,22 @@ export interface SimpleMap {
   [key: string]: any;
 }
 
+const clientCache: { [key: string]: CosmosClient } = {}
+
+/**
+ * Gets or creates a cosmos client connection
+ * @param options The cosmos connection options
+ */
+function getCosmosClient(options: CosmosClientOptions) {
+  let client = clientCache[options.endpoint];
+  if (!client) {
+    client = new CosmosClient(options);
+    clientCache[options.endpoint] = client;
+  }
+
+  return client;
+}
+
 export class DataServiceBase<T extends Entity> implements DataService<T> {
   private database: Database;
   private collection: Container;
@@ -39,7 +55,7 @@ export class DataServiceBase<T extends Entity> implements DataService<T> {
       key: this.options.key,
     };
 
-    this.client = new CosmosClient(cosmosOptions);
+    this.client = getCosmosClient(cosmosOptions);
     this.database = this.client.database(this.options.databaseName);
     this.collection = this.database.container(this.options.collectionName);
   }
