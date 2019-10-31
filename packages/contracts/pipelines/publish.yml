@@ -23,8 +23,8 @@ steps:
   inputs:
     buildType: 'specific'
     project: '$(System.TeamProjectId)'
-    definition: 10
-    pipeline: 10
+    definition: 30
+    pipeline: 30
     artifactName: 'contracts'
     targetPath: '$(Pipeline.Workspace)/artifact'
     buildVersionToDownload: latest
