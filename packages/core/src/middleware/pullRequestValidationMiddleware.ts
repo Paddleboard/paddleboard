@@ -21,7 +21,7 @@ export const PullRequestValidationMiddleware = (): Middleware => async (context:
   const pullRequest = await pullRequestService.get(pullRequestId, context.repository.id);
 
   if (!pullRequest) {
-    return context.send({ message: "pullRequestId not found" }, 404);
+    return context.send({ message: "pull request not found" }, 404);
   }
 
   context.pullRequest = pullRequest;

@@ -21,7 +21,7 @@ export const CategoryValidationMiddleware = (): Middleware => async (context: Pa
   const category = await categoryService.get(categoryId, context.user.id);
 
   if (!category) {
-    return context.send({ message: "categoryId not found" }, 404);
+    return context.send({ message: "category not found" }, 404);
   }
 
   context.category = category;

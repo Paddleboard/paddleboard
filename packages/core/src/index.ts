@@ -17,6 +17,7 @@ export * from "./middleware/userProfileValidationMiddleware";
 export * from "./middleware/categoryValidationMiddleware";
 export * from "./middleware/repositoryValidationMiddleware";
 export * from "./middleware/pullRequestValidationMiddleware";
+export * from "./middleware/codeReviewValidationMiddleware";
 export * from "./middleware/cosmosMiddleware";
 export * from "./middleware/jwtMiddleware";
 export * from "./middleware/currentUserMiddleware";
