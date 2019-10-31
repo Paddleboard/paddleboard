@@ -70,7 +70,7 @@ steps:
   inputs:
     targetType: filePath
     filePath: ./packages/contracts/scripts/version.sh
-    arguments: '@paddleboard/core $(NPM_RELEASE_TYPE)'
+    arguments: '@paddleboard/contracts $(NPM_RELEASE_TYPE)'
     workingDirectory: packages/contracts
   env:
     SOURCE_BRANCH: $(Build.SourceBranch)
@@ -109,4 +109,4 @@ steps:
   displayName: 'Publish Build Artifact'
   inputs:
     targetPath: 'artifact'
-    artifactName: 'core'
+    artifactName: 'contracts'

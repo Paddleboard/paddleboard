@@ -25,7 +25,7 @@ steps:
     project: '$(System.TeamProjectId)'
     definition: 10
     pipeline: 10
-    artifactName: 'core'
+    artifactName: 'contracts'
     targetPath: '$(Pipeline.Workspace)/artifact'
     buildVersionToDownload: latest
 
