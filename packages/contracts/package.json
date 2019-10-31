@@ -1,0 +1,55 @@
+{
+  "name": "@paddleboard/contracts",
+  "version": "1.0.2-9",
+  "description": "Paddleboard data contracts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wbreza/paddleboard"
+  },
+  "keywords": [],
+  "author": "Wallace Breza",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "clean": "shx rm -rf lib/",
+    "start": "npm run test -- --watch",
+    "prelint": "npm run clean",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "npm run lint -- --fix",
+    "pretest": "npm run lint",
+    "test": "jest",
+    "test:ci": "npm run test -- --ci",
+    "test:coverage": "npm run test -- --coverage",
+    "prebuild": "npm run test",
+    "build": "npx tsc",
+    "offline": "sls offline",
+    "sync": "npm run sync:multicloud",
+    "sync:multicloud": "npm install @multicloud/sls-core@beta"
+  },
+  "files": [
+    "lib/"
+  ],
+  "dependencies": {
+    "@multicloud/sls-core": "^0.1.1-25"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.13",
+    "@types/node": "12.0.8",
+    "@types/shortid": "0.0.29",
+    "@typescript-eslint/eslint-plugin": "^1.9.0",
+    "@typescript-eslint/parser": "^1.9.0",
+    "babel-jest": "^24.8.0",
+    "babel-plugin-transform-typescript-metadata": "0.2.2",
+    "babel-preset-react-app": "^9.0.0",
+    "eslint": "^5.16.0",
+    "jest": "^24.8.0",
+    "shortid": "^2.2.15",
+    "shx": "^0.3.2",
+    "typescript": "^3.5.2"
+  },
+  "engines": {
+    "node": ">=8.16.0",
+    "npm": ">=6.4.1"
+  }
+}

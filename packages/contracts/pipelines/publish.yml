@@ -1,0 +1,47 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger: none
+pr: none
+
+variables:
+  - group: NpmCredentials
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- task: DownloadPipelineArtifact@2
+  displayName: 'Download Build Artifact'
+  inputs:
+    buildType: 'specific'
+    project: '$(System.TeamProjectId)'
+    definition: 10
+    pipeline: 10
+    artifactName: 'core'
+    targetPath: '$(Pipeline.Workspace)/artifact'
+    buildVersionToDownload: latest
+
+- task: Bash@3
+  displayName: 'Prepare for NPM package publishing'
+  inputs:
+    targetType: inline
+    script: |
+      NPM_PACKAGE_PATH=`ls $(Pipeline.Workspace)/artifact/*.tgz`
+      echo "##vso[task.setvariable variable=NPM_PACKAGE_PATH]${NPM_PACKAGE_PATH}"
+
+- task: Bash@3
+  displayName: 'Publish NPM Package'
+  inputs:
+    targetType: filePath
+    filePath: ./packages/contracts/scripts/publish.sh
+    arguments: '$(NPM_PACKAGE_PATH) $(NPM_TAG)'
+  env:
+    NPM_TOKEN: $(NPM-TOKEN)
