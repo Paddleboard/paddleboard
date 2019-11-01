@@ -38,8 +38,8 @@
   "dependencies": {
     "@multicloud/sls-azure": "^0.1.1-14",
     "@multicloud/sls-core": "^0.1.1-26",
-    "@paddleboard/contracts": "^1.0.2-12",
-    "@paddleboard/core": "^1.0.2-13",
+    "@paddleboard/contracts": "^1.0.2-13",
+    "@paddleboard/core": "^1.0.2-15",
     "shortid": "^2.2.15"
   },
   "devDependencies": {

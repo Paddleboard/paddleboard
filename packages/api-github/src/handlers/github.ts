@@ -1,6 +1,7 @@
 import { app, GitHubApiContext } from "../app";
 import { DeveloperAccount, DeveloperAccountType } from "@paddleboard/contracts";
 import { QueueService } from "@paddleboard/core";
+import { GitHubInstallationEvent } from "@paddleboard/github";
 
 /**
  * Called when the Github app is installed an authorized on an account
@@ -27,7 +28,7 @@ export const authorize = app.use(async (context: GitHubApiContext) => {
     metadata: githubAccount
   };
 
-  const installPayload = {
+  const installPayload: GitHubInstallationEvent = {
     account: devAccount,
     installationId: installationId
   };

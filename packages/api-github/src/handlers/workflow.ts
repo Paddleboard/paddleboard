@@ -3,7 +3,8 @@ import { AzureModule, StorageQueueMiddleware } from "@multicloud/sls-azure";
 import { GitHubMiddleware } from "../middleware/githubMiddleware";
 import { GitHubApiContext } from "../app";
 import { QueueService } from "@paddleboard/core";
-import { DeveloperAccount, Repository, DeveloperAccountType } from "@paddleboard/contracts";
+import { Repository, DeveloperAccountType, PaddleboardEvent, RepositoryEvent } from "@paddleboard/contracts";
+import { GitHubInstallationEvent } from "@paddleboard/github";
 
 const middlewares = [StorageQueueMiddleware(), GitHubMiddleware()];
 const app = new App(new AzureModule());
@@ -17,16 +18,13 @@ export const install = app.use(async (context: GitHubApiContext) => {
     return context.send({ message: "event is required" }, 500);
   }
 
-  const queueService = new QueueService({
+  const repoQueue = new QueueService({
     account: process.env.QUEUE_ACCOUNT_NAME,
     key: process.env.QUEUE_ACCOUNT_KEY,
     queueName: "repositories"
   });
 
-  const events: [] = context.event.records;
-
-  await events.forEachAsync(async (event: any) => {
-    const account: DeveloperAccount = event.body.account;
+  await context.event.records.forEachAsync(async (event: PaddleboardEvent<GitHubInstallationEvent>) => {
     const repositories = await context.github.getRepositories(event.body.installationId);
 
     // Queue repo tasks for each mapped repository
@@ -36,14 +34,17 @@ export const install = app.use(async (context: GitHubApiContext) => {
         name: githubRepo.name,
         description: githubRepo.description,
         portalUrl: githubRepo.html_url,
+        metadata: {
+          installationId: event.body.installationId
+        }
       };
 
-      const payload = {
-        account: account,
+      const repoEvent: RepositoryEvent = {
+        account: event.body.account,
         repository: repo
       };
 
-      await queueService.enqueue(payload);
+      await repoQueue.enqueue(repoEvent);
     });
   });
 
