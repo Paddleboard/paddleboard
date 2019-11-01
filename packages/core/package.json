@@ -21,8 +21,9 @@
     "test": "jest",
     "test:ci": "npm run test -- --ci",
     "test:coverage": "npm run test -- --coverage",
+    "compile": "npx tsc",
     "prebuild": "npm run test",
-    "build": "npx tsc",
+    "build": "npm run compile",
     "offline": "sls offline",
     "sync": "npm run sync:multicloud",
     "sync:multicloud": "npm install @multicloud/sls-core@beta @multicloud/sls-azure@beta"
@@ -37,7 +38,6 @@
     "@multicloud/sls-core": "^0.1.1-26",
     "@paddleboard/contracts": "^1.0.2-11",
     "axios": "^0.19.0",
-    "dotenv": "^8.2.0",
     "jsonwebtoken": "^8.5.1",
     "shortid": "^2.2.15"
   },
@@ -54,6 +54,7 @@
     "babel-jest": "^24.8.0",
     "babel-plugin-transform-typescript-metadata": "0.2.2",
     "babel-preset-react-app": "^9.0.0",
+    "dotenv": "^8.2.0",
     "eslint": "^5.16.0",
     "jest": "^24.8.0",
     "shx": "^0.3.2",

@@ -1,5 +1,6 @@
 // Core Services
 export * from "./services/queueService";
+export * from "./services/sourceControlProviderFactory";
 // Data Services
 export * from "./services/userProfileService";
 export * from "./services/developerAccountService";
