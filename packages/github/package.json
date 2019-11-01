@@ -32,7 +32,7 @@
   ],
   "dependencies": {
     "@octokit/rest": "^16.34.1",
-    "@paddleboard/contracts": "^1.0.2-11",
+    "@paddleboard/contracts": "^1.0.2-12",
     "axios": "^0.19.0",
     "dotenv": "^8.2.0",
     "jsonwebtoken": "^8.5.1"
