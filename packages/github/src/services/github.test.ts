@@ -46,6 +46,6 @@ describe("Github Service", () => {
     const repos = await githubService.getRepositories(installation.id);
     const pulls = await githubService.getPullRequests(installation.id, repos[0].owner.login, repos[0].name);
 
-    expect(pulls).toBeGreaterThan(0);
+    expect(pulls).not.toBeNull();
   });
 });
