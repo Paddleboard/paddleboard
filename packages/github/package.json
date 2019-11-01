@@ -21,8 +21,9 @@
     "test": "jest",
     "test:ci": "npm run test -- --ci",
     "test:coverage": "npm run test -- --coverage",
+    "compile": "npx tsc",
     "prebuild": "npm run test",
-    "build": "npx tsc",
+    "build": "npm run compile",
     "offline": "sls offline",
     "sync": "npm run sync:paddleboard",
     "sync:paddleboard": "npm install @paddleboard/contracts@beta"
@@ -32,7 +33,7 @@
   ],
   "dependencies": {
     "@octokit/rest": "^16.34.1",
-    "@paddleboard/contracts": "^1.0.2-12",
+    "@paddleboard/contracts": "^1.0.2-13",
     "axios": "^0.19.0",
     "dotenv": "^8.2.0",
     "jsonwebtoken": "^8.5.1"

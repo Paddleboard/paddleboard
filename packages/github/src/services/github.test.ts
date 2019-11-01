@@ -39,4 +39,13 @@ describe("Github Service", () => {
 
     expect(repos.length).toBeGreaterThan(0);
   });
+
+  it("Can retrieve pull requests from a repo", async () => {
+    const installations = await githubService.getInstallations();
+    const installation = await githubService.getInstallation(installations[0].id);
+    const repos = await githubService.getRepositories(installation.id);
+    const pulls = await githubService.getPullRequests(installation.id, repos[0].owner.login, repos[0].name);
+
+    expect(pulls).toBeGreaterThan(0);
+  });
 });

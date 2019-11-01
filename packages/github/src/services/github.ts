@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import axios from "axios";
-import Octokit, { AppsListInstallationsResponseItem, AppsGetInstallationResponse, AppsCreateInstallationTokenResponse, UsersGetAuthenticatedResponse, AppsListReposResponseRepositoriesItem } from "@octokit/rest";
+import Octokit, { AppsListInstallationsResponseItem, AppsGetInstallationResponse, AppsCreateInstallationTokenResponse, UsersGetAuthenticatedResponse, AppsListReposResponseRepositoriesItem, PullsListResponseItem } from "@octokit/rest";
 
 export interface GitHubServiceOptions {
   appId: string;
@@ -28,7 +28,7 @@ export class GitHubService {
    */
   public createAppToken() {
     const signingKey = Buffer.from(this.options.signingKey);
-    const expires = this.options.ttl || 60 * 10;
+    const expires = this.options.ttl || 60 * 5;
 
     return jwt.sign({}, signingKey, { algorithm: "RS256", issuer: this.options.appId, expiresIn: expires });
   }
@@ -92,6 +92,20 @@ export class GitHubService {
     const response = await installationClient.apps.listRepos();
 
     return response.data.repositories;
+  }
+
+  /**
+   * Gets a list of pull requests from a repo
+   * @param ownerName The repo owner
+   * @param repoName The repo name
+   * @param state The state of pull requests to query
+   */
+  public async getPullRequests(installationId: number, ownerName: string, repoName: string, state: "open" | "closed" | "all" = "open"): Promise<PullsListResponseItem[]> {
+    const accessToken = await this.createInstallationAccessToken(installationId);
+    const installationClient = new Octokit({ auth: accessToken.token });
+
+    const response = await installationClient.pulls.list({ owner: ownerName, repo: repoName, state });
+    return response.data;
   }
 
   /**
