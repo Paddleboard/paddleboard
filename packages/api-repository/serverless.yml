@@ -252,7 +252,7 @@ functions:
             - name: repositoryId
               type: string
   ingestRepository:
-    handler: src/handlers/repository.ingestRepository
+    handler: src/handlers/workflow.ingestRepository
     events:
       - queue: repositories
         x-azure-settings:

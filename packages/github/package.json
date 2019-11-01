@@ -31,12 +31,14 @@
     "lib/"
   ],
   "dependencies": {
+    "@octokit/rest": "^16.34.1",
     "@paddleboard/contracts": "^1.0.2-11",
     "axios": "^0.19.0",
     "dotenv": "^8.2.0",
     "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
+    "@octokit/types": "^1.1.0",
     "@types/axios-mock-adapter": "^1.10.0",
     "@types/dotenv": "^6.1.1",
     "@types/jest": "^24.0.13",

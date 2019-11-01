@@ -85,7 +85,7 @@ functions:
           urlTemplate: /hook
 
   install:
-    handler: src/handlers/github.install
+    handler: src/handlers/workflow.install
     events:
       - queue: github-installations
         x-azure-settings:

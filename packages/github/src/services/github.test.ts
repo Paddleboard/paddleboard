@@ -1,10 +1,7 @@
-import axios from "axios";
-import MockAdapter from "axios-mock-adapter";
 import { GitHubService, GitHubServiceOptions } from "./github";
 
 describe("Github Service", () => {
   let githubService: GitHubService;
-  const mock = new MockAdapter(axios);
 
   beforeAll(() => {
     const options: GitHubServiceOptions = {
@@ -15,12 +12,6 @@ describe("Github Service", () => {
       redirectUri: process.env.GITHUB_REDIRECT_URI,
     };
     githubService = new GitHubService(options)
-
-    mock.onGet("https://api.github.com/app/installations").reply(200, [{ id: "abc123" }]);
-    mock.onGet("https://api.github.com/app/installations/abc123").reply(200, { id: "abc123" });
-    mock.onPost("https://api.github.com/app/installations/abc123/access_tokens").reply(200, { token: "XYZ789" });
-    mock.onGet("https://api.github.com/installation/repositories").reply(200, { repositories: [{ id: "r1" }] });
-
   });
 
   it("Can generate a github JWT token", () => {
