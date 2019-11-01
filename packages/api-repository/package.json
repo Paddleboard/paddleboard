@@ -29,7 +29,7 @@
     "offline": "sls offline",
     "sync": "npm run sync:paddleboard && npm run sync:multicloud && npm run sync:serverless",
     "sync:multicloud": "npm install @multicloud/sls-core@beta @multicloud/sls-azure@beta",
-    "sync:paddleboard": "npm install @paddleboard/contracts@beta @paddleboard/core@beta",
+    "sync:paddleboard": "npm install @paddleboard/contracts@beta @paddleboard/core@beta @paddleboard/github@beta",
     "sync:serverless": "npm install serverless-azure-functions@beta --save-dev",
     "package": "cross-env NODE_ENV=production BABEL_ENV=production npx serverless package",
     "webpack": "cross-env NODE_ENV=production BABEL_ENV=production npx serverless webpack",
@@ -40,7 +40,7 @@
     "@multicloud/sls-core": "^0.1.1-26",
     "@paddleboard/contracts": "^1.0.2-13",
     "@paddleboard/core": "^1.0.2-17",
-    "@paddleboard/github": "^1.0.2-10",
+    "@paddleboard/github": "^1.0.2-13",
     "shortid": "^2.2.15"
   },
   "devDependencies": {
