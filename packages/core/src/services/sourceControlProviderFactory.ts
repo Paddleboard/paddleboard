@@ -8,7 +8,7 @@ export interface SourceControlFactoryRegistrationOptions {
 }
 
 export class SourceControlProviderFactory {
-  private static registry: { [key: string]: SourceControlFactoryRegistrationOptions }
+  private static registry: { [key: string]: SourceControlFactoryRegistrationOptions } = {};
 
   /**
    * Registers a source control provider
