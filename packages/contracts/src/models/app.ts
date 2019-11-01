@@ -15,8 +15,10 @@ export interface Category extends Entity {
 
 export interface Repository extends Entity {
   name: string;
+  owner?: string;
   portalUrl: string;
   providerType: DeveloperAccountType;
+  metadata: any;
   description?: string;
   categoryId?: string;
 }

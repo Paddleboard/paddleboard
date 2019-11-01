@@ -28,7 +28,10 @@ describe("App Models", (): void => {
     id: shortid.generate(),
     providerType: DeveloperAccountType.GitHub,
     name: "paddleboard",
-    portalUrl: "https://github.com/paddleboard/paddleboard"
+    portalUrl: "https://github.com/paddleboard/paddleboard",
+    metadata: {
+      installationId: 123
+    }
   }
 
   const pullRequest: PullRequest = {
