@@ -40,7 +40,7 @@
     "@multicloud/sls-core": "^0.1.1-26",
     "@octokit/rest": "^16.34.0",
     "@paddleboard/contracts": "^1.0.2-13",
-    "@paddleboard/core": "^1.0.2-15",
+    "@paddleboard/core": "^1.0.2-17",
     "@paddleboard/github": "^1.0.2-13"
   },
   "devDependencies": {
