@@ -12,6 +12,7 @@ export class UserProfileService extends DataServiceBase<UserProfile> {
       databaseName: "Paddleboard",
       endpoint: process.env.COSMOS_ENDPOINT,
       key: process.env.COSMOS_KEY,
+      selector: ["id", "firstName", "lastName", "email", "identity", "audit"],
       collectionOptions: {
         uniqueKeyPolicy: {
           uniqueKeys: [

@@ -15,6 +15,7 @@ export interface DataServiceOptions {
   key: string;
   databaseName: string;
   collectionName: string;
+  selector?: string[];
   databaseOptions?: DatabaseDefinition;
   collectionOptions?: ContainerDefinition;
 }
@@ -47,6 +48,7 @@ function getCosmosClient(options: CosmosClientOptions) {
 export class DataServiceBase<T extends Entity> implements DataService<T> {
   private database: Database;
   private collection: Container;
+  private readonly selector: string = "*";
   protected readonly client: CosmosClient;
 
   public constructor(protected options: DataServiceOptions) {
@@ -58,6 +60,10 @@ export class DataServiceBase<T extends Entity> implements DataService<T> {
     this.client = getCosmosClient(cosmosOptions);
     this.database = this.client.database(this.options.databaseName);
     this.collection = this.database.container(this.options.collectionName);
+
+    if (this.options.selector) {
+      this.selector = this.options.selector.map((field) => `c.${field}`).join(",");
+    }
   }
 
   public async init(): Promise<void> {
@@ -82,7 +88,7 @@ export class DataServiceBase<T extends Entity> implements DataService<T> {
     };
 
     const querySpec: SqlQuerySpec = {
-      query: `SELECT * FROM ${this.options.collectionName}`,
+      query: `SELECT ${this.selector} FROM ${this.options.collectionName} c`,
       parameters: []
     };
 
@@ -114,7 +120,7 @@ export class DataServiceBase<T extends Entity> implements DataService<T> {
   }
 
   public async find(map: SimpleMap, options?: DataListOptions): Promise<T[]> {
-    const query = [`SELECT * FROM ${this.options.collectionName} c WHERE`];
+    const query = [`SELECT ${this.selector} FROM ${this.options.collectionName} c WHERE`];
     const parameters = [];
     const queryParams = Object.keys(map).map((key) => {
       parameters.push({ name: `@${key}`, value: map[key] });
