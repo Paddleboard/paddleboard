@@ -8,11 +8,10 @@ import { GitHubInstallationEvent } from "@paddleboard/github";
  */
 export const authorize = app.use(async (context: GitHubApiContext) => {
   const code = context.req.query.get("code");
-  if (!code) {
+  const installationId = context.req.query.get("installation_id");
+  if (!(code && installationId)) {
     return context.send("Invalid request", 400);
   }
-
-  const installationId = context.req.query.get("installation_id");
 
   const queueService = new QueueService({
     account: process.env.QUEUE_ACCOUNT_NAME,
