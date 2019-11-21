@@ -40,6 +40,8 @@ steps:
   env:
     COSMOS_ENDPOINT: $(COSMOS-ENDPOINT)
     COSMOS_KEY: $(COSMOS-KEY)
+    QUEUE_ACCOUNT_NAME: $(QUEUE-ACCOUNT-NAME)
+    QUEUE_ACCOUNT_KEY: $(QUEUE-ACCOUNT-key)
 
 - task: Npm@1
   displayName: 'Build'
@@ -50,6 +52,8 @@ steps:
   env:
     COSMOS_ENDPOINT: $(COSMOS-ENDPOINT)
     COSMOS_KEY: $(COSMOS-KEY)
+    QUEUE_ACCOUNT_NAME: $(QUEUE-ACCOUNT-NAME)
+    QUEUE_ACCOUNT_KEY: $(QUEUE-ACCOUNT-key)
 
 - task: Npm@1
   displayName: 'Package'
