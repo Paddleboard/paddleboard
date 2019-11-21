@@ -54,7 +54,7 @@ export class DataServiceBase<T extends Entity> implements DataService<T> {
   public constructor(protected options: DataServiceOptions) {
     const cosmosOptions: CosmosClientOptions = {
       endpoint: this.options.endpoint,
-      key: this.options.key,
+      key: this.options.key
     };
 
     this.client = getCosmosClient(cosmosOptions);
@@ -81,12 +81,6 @@ export class DataServiceBase<T extends Entity> implements DataService<T> {
   }
 
   public async list(options?: DataListOptions): Promise<T[]> {
-    options = {
-      skip: 0,
-      take: 20,
-      ...options
-    };
-
     const querySpec: SqlQuerySpec = {
       query: `SELECT ${this.selector} FROM ${this.options.collectionName} c`,
       parameters: []
@@ -158,7 +152,7 @@ export class DataServiceBase<T extends Entity> implements DataService<T> {
     querySpec.parameters.push({ name: "@skip", value: options.skip });
     querySpec.parameters.push({ name: "@take", value: options.take });
 
-    const result = await this.collection.items.query<T>(querySpec, null).fetchNext();
+    const result = await this.collection.items.query<T>(querySpec, null).fetchAll();
     return result.resources || [];
   }
 }

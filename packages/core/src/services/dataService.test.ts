@@ -40,6 +40,32 @@ describe("Repository Data Service", (): void => {
     return Math.random().toString(36).substring(7);
   }
 
+  it("supports paging correctly", async () => {
+    let skip = 0;
+    const take = 5;
+    const allUsers: any = {};
+
+    while (true) {
+      const users = await userProfileService.list({ skip, take });
+      expect(users.length).toBeLessThanOrEqual(take);
+
+      users.forEach((user) => {
+        const existing = allUsers[user.id];
+        if (existing) {
+          fail("Duplicate entry detected");
+        }
+
+        allUsers[user.id] = user;
+      });
+
+      if (users.length < take) {
+        break;
+      }
+
+      skip += take;
+    }
+  });
+
   it("Creates and validates the domain graph", async () => {
     const random = randomString();
 
@@ -72,7 +98,8 @@ describe("Repository Data Service", (): void => {
     let repo: Repository = {
       name: "Paddleboard",
       providerType: account.providerType,
-      portalUrl: "https://github.com/wbreza/paddleboard"
+      portalUrl: "https://github.com/wbreza/paddleboard",
+      metadata: {},
     };
 
     repo = await repositoryService.save(repo);
