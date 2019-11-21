@@ -1,4 +1,5 @@
 module.exports = {
+  "globalSetup": "./setupTests.js",
   "collectCoverageFrom": [
     "src/**/*.{js,jsx,ts,tsx}",
     "!src/**/*.d.ts"
