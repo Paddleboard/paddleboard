@@ -9,11 +9,12 @@ import {
   LogLevel,
   Middleware,
 } from "@multicloud/sls-core";
+import { StorageQueueMiddleware } from "@multicloud/sls-azure";
 
 registerMixins();
 const defaultLogger = new ConsoleLogger(LogLevel.VERBOSE);
 
-export const config = (): Middleware[] => {
+export const configApi = (): Middleware[] => {
   return [
     LoggingServiceMiddleware(defaultLogger),
     PerformanceMiddleware(),
@@ -23,3 +24,10 @@ export const config = (): Middleware[] => {
     GitHubMiddleware(),
   ];
 };
+
+export const configWorkflow = (): Middleware[] => {
+  return [
+    StorageQueueMiddleware(),
+    GitHubMiddleware()
+  ];
+}

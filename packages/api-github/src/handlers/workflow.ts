@@ -1,21 +1,16 @@
-import { App } from "@multicloud/sls-core";
-import { AzureModule, StorageQueueMiddleware } from "@multicloud/sls-azure";
-import { GitHubMiddleware } from "../middleware/githubMiddleware";
-import { GitHubApiContext } from "../app";
+import { GitHubApiContext, createWorkflowApp } from "../app";
 import { QueueService } from "@paddleboard/core";
 import { Repository, DeveloperAccountType, PaddleboardEvent, RepositoryEvent } from "@paddleboard/contracts";
 import { GitHubInstallationEvent } from "@paddleboard/github";
 
-const middlewares = [StorageQueueMiddleware(), GitHubMiddleware()];
-const app = new App(new AzureModule());
-app.registerMiddleware(...middlewares);
+const app = createWorkflowApp();
 
 /**
  * Called when github app installations are created
  */
 export const install = app.use(async (context: GitHubApiContext) => {
   if (!(context.event && context.event.records)) {
-    return context.send({ message: "event is required" }, 500);
+    return context.send({ message: "event is required" }, 400);
   }
 
   const repoQueue = new QueueService({

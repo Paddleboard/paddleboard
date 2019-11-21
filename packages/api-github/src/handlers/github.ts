@@ -1,7 +1,9 @@
-import { app, GitHubApiContext } from "../app";
+import { GitHubApiContext, createApiApp } from "../app";
 import { DeveloperAccount, DeveloperAccountType } from "@paddleboard/contracts";
 import { QueueService } from "@paddleboard/core";
 import { GitHubInstallationEvent } from "@paddleboard/github";
+
+const app = createApiApp();
 
 /**
  * Called when the Github app is installed an authorized on an account
