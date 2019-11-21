@@ -9,6 +9,7 @@ import {
 } from "@multicloud/sls-core";
 import { DeveloperAccountType } from "@paddleboard/contracts";
 import { GitHubServiceOptions, GitHubSourceControlProvider } from "@paddleboard/github";
+import { StorageQueueMiddleware } from "@multicloud/sls-azure";
 
 registerMixins();
 const defaultLogger = new ConsoleLogger(LogLevel.VERBOSE);
@@ -26,7 +27,7 @@ SourceControlProviderFactory.register({
   factory: () => new GitHubSourceControlProvider(githubOptions)
 })
 
-export const config = () => {
+export const configApi = () => {
   return [
     LoggingServiceMiddleware(defaultLogger),
     PerformanceMiddleware(),
@@ -36,5 +37,11 @@ export const config = () => {
     CurrentUserMiddleware(),
     UserProfileValidationMiddleware(),
     CosmosMiddleware(),
+  ];
+};
+
+export const configWorkflow = () => {
+  return [
+    StorageQueueMiddleware()
   ];
 };

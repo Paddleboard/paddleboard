@@ -1,15 +1,12 @@
-import { App } from "@multicloud/sls-core";
-import { AzureModule, StorageQueueMiddleware } from "@multicloud/sls-azure";
 import { RepositoryService, SourceControlProviderFactory, QueueService } from "@paddleboard/core";
 import { PaddleboardCloudContext, PaddleboardEvent, RepositoryEvent, PullRequestEvent } from "@paddleboard/contracts";
+import { createWorkflowApp } from "../app";
 
-const middlewares = [StorageQueueMiddleware()];
-const app = new App(new AzureModule());
-app.registerMiddleware(...middlewares);
+const app = createWorkflowApp();
 
 export const ingestRepository = app.use(async (context: PaddleboardCloudContext) => {
   if (!(context.event && context.event.records)) {
-    return context.send({ message: "event is required" }, 500);
+    return context.send({ message: "event is required" }, 400);
   }
 
   const repoService = new RepositoryService();

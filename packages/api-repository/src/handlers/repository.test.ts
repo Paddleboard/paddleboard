@@ -25,7 +25,8 @@ describe("Repository Handlers", () => {
       id: shortid.generate(),
       name: "paddleboard",
       providerType: DeveloperAccountType.GitHub,
-      portalUrl: "https://github.com/wbreza/paddleboard"
+      portalUrl: "https://github.com/wbreza/paddleboard",
+      metadata: {},
     }];
 
     UserProfileService.prototype.get = jest.fn(() => Promise.resolve(userProfile));

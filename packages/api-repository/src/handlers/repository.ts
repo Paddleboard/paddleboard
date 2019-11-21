@@ -1,7 +1,8 @@
-import { app, RepositoryApiContext } from "../app";
+import { RepositoryApiContext, createApiApp } from "../app";
 import { UserRepositoryService, RepositoryService, RepositoryValidationMiddleware, CategoryValidationMiddleware } from "@paddleboard/core";
 import { Repository } from "@paddleboard/contracts";
 
+const app = createApiApp();
 const categoryValidation = CategoryValidationMiddleware();
 const repoValidation = RepositoryValidationMiddleware();
 
