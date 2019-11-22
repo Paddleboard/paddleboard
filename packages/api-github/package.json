@@ -15,7 +15,7 @@
   "license": "MIT",
   "scripts": {
     "clean": "rimraf lib && rimraf src/**/*.js && rimraf src/**/*.d.ts",
-    "start": "npm run test -- --watch",
+    "start": "tsc && sls offline",
     "prelint": "npm run clean",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "npm run lint -- --fix",
