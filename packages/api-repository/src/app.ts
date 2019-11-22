@@ -8,7 +8,6 @@ export interface RepositoryApiContext extends PaddleboardCloudContext {
   repository: Repository;
 }
 
-
 export const createApiApp = () => {
   const middlewares = configApi();
   const app = new App(new AzureModule);

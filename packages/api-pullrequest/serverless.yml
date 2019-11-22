@@ -213,4 +213,12 @@ functions:
             - name: categoryId
               type: string
 
+  ingestPullRequest:
+    handler: src/handlers/workflow.ingestPullRequest
+    events:
+      - queue: pullrequests
+        x-azure-settings:
+          name: message # Specifies which name it's available on `context`
+          connection: STORAGE_CONNECTION # App Setting/environment variable which contains Storage Account Connection String
+
 

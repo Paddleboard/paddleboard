@@ -1,4 +1,4 @@
-import { CosmosMiddleware, JwtMiddleware, CurrentUserMiddleware, UserProfileValidationMiddleware } from "@paddleboard/core";
+import { CosmosMiddleware, JwtMiddleware, CurrentUserMiddleware, UserProfileValidationMiddleware, registerMixins } from "@paddleboard/core";
 import {
   LoggingServiceMiddleware,
   HTTPBindingMiddleware,
@@ -7,14 +7,16 @@ import {
   ConsoleLogger,
   LogLevel,
 } from "@multicloud/sls-core";
+import { StorageQueueMiddleware } from "@multicloud/sls-azure";
 
+registerMixins();
 const defaultLogger = new ConsoleLogger(LogLevel.VERBOSE);
 
-export const config = () => {
+export const configApi = () => {
   return [
     LoggingServiceMiddleware(defaultLogger),
     PerformanceMiddleware(),
-    ExceptionMiddleware({ log: defaultLogger.log as any }),
+    ExceptionMiddleware({ log: console.error as any }),
     HTTPBindingMiddleware(),
     JwtMiddleware(),
     CurrentUserMiddleware(),
@@ -22,3 +24,12 @@ export const config = () => {
     CosmosMiddleware(),
   ];
 };
+
+export const configWorkflow = () => {
+  return [
+    LoggingServiceMiddleware(defaultLogger),
+    PerformanceMiddleware(),
+    ExceptionMiddleware({ log: console.error as any }),
+    StorageQueueMiddleware()
+  ];
+}

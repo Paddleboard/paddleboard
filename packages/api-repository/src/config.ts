@@ -31,7 +31,7 @@ export const configApi = () => {
   return [
     LoggingServiceMiddleware(defaultLogger),
     PerformanceMiddleware(),
-    ExceptionMiddleware({ log: defaultLogger.log as any }),
+    ExceptionMiddleware({ log: defaultLogger.error as any }),
     HTTPBindingMiddleware(),
     JwtMiddleware(),
     CurrentUserMiddleware(),
@@ -44,7 +44,7 @@ export const configWorkflow = () => {
   return [
     LoggingServiceMiddleware(defaultLogger),
     PerformanceMiddleware(),
-    ExceptionMiddleware({ log: defaultLogger.log as any }),
+    ExceptionMiddleware({ log: defaultLogger.error as any }),
     StorageQueueMiddleware()
   ];
 };

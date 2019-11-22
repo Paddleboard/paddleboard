@@ -1,9 +1,11 @@
-import { app, PullRequestApiContext } from "../app";
+import { PullRequestApiContext, createApiApp } from "../app";
 import { PullRequestService, PullRequestValidationMiddleware, RepositoryValidationMiddleware, CategoryValidationMiddleware } from "@paddleboard/core";
 
 const categoryValidation = CategoryValidationMiddleware();
 const repoValidation = RepositoryValidationMiddleware();
 const pullValidation = PullRequestValidationMiddleware();
+
+const app = createApiApp();
 
 export const getPullRequestListByUser = app.use(async (context: PullRequestApiContext) => {
   const pullRequestService = new PullRequestService();

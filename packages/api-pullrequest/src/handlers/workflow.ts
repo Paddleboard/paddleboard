@@ -1,11 +1,8 @@
-import { App } from "@multicloud/sls-core";
-import { AzureModule, StorageQueueMiddleware } from "@multicloud/sls-azure";
 import { PullRequestService } from "@paddleboard/core";
 import { PaddleboardCloudContext, PaddleboardEvent, PullRequestEvent } from "@paddleboard/contracts";
+import { createWorkflowApp } from "../app";
 
-const middlewares = [StorageQueueMiddleware()];
-const app = new App(new AzureModule());
-app.registerMiddleware(...middlewares);
+const app = createWorkflowApp();
 
 export const ingestPullRequest = app.use(async (context: PaddleboardCloudContext) => {
   if (!(context.event && context.event.records)) {
@@ -14,10 +11,17 @@ export const ingestPullRequest = app.use(async (context: PaddleboardCloudContext
 
   const pullRequestService = new PullRequestService();
 
+  context.logger.info(`Processing ${context.event.records.length} pull request events...`);
+
   await context.event.records.forEachAsync(async (event: PaddleboardEvent<PullRequestEvent>) => {
-    const existing = await pullRequestService.findSingle({ repositoryId: event.body.pullRequest.repositoryId, name: event.body.pullRequest.name });
-    if (!existing) {
-      await pullRequestService.save(event.body.pullRequest);
+    let pullRequest = await pullRequestService.findSingle({
+      repositoryId: event.body.pullRequest.repositoryId,
+      name: event.body.pullRequest.name
+    });
+
+    if (!pullRequest) {
+      pullRequest = await pullRequestService.save(event.body.pullRequest);
+      context.logger.info(`Created new pull request '${pullRequest.name}'`);
     }
   });
 
