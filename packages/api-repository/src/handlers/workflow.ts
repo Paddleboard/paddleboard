@@ -16,14 +16,24 @@ export const ingestRepository = app.use(async (context: PaddleboardCloudContext)
     queueName: "pullrequests"
   });
 
+  context.logger.info(`Processing ${context.event.records.length} repo events...`);
+
   await context.event.records.forEachAsync(async (event: PaddleboardEvent<RepositoryEvent>) => {
-    const existing = await repoService.findSingle({ owner: event.body.repository.owner, name: event.body.repository.name });
-    if (!existing) {
-      await repoService.save(event.body.repository);
+    let repo = await repoService.findSingle({
+      owner: event.body.repository.owner,
+      name: event.body.repository.name
+    });
+
+    if (!repo) {
+      repo = await repoService.save(event.body.repository);
+      context.logger.info(`Created new repo '${repo.name}'`);
     }
 
     const sourceControlProvider = SourceControlProviderFactory.create(event.body.repository.providerType);
-    const pullRequests = await sourceControlProvider.getPullRequests(existing);
+
+    const pullRequests = await sourceControlProvider.getPullRequests(repo);
+
+    context.logger.info(`Found ${pullRequests.length} pull requests for repo ${repo.name}`);
 
     await pullRequests.mapAsync(async (pullRequest) => {
       const pullevent: PullRequestEvent = {
@@ -32,6 +42,7 @@ export const ingestRepository = app.use(async (context: PaddleboardCloudContext)
       }
 
       await pullRequestQueue.enqueue(pullevent);
+      context.logger.info(`Enqueued new pull request event for '${pullRequest.name}'`);
     });
   });
 

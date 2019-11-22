@@ -28,6 +28,7 @@ export const install = app.use(async (context: GitHubApiContext) => {
       const repo: Repository = {
         providerType: DeveloperAccountType.GitHub,
         name: githubRepo.name,
+        owner: githubRepo.owner.login,
         description: githubRepo.description,
         portalUrl: githubRepo.html_url,
         metadata: {
