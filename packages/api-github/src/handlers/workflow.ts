@@ -21,6 +21,7 @@ export const install = app.use(async (context: GitHubApiContext) => {
 
   await context.event.records.forEachAsync(async (event: PaddleboardEvent<GitHubInstallationEvent>) => {
     const repositories = await context.github.getRepositories(event.body.installationId);
+    context.logger.info(`Found ${repositories.length} repositories for installation id '${event.body.installationId}'`)
 
     // Queue repo tasks for each mapped repository
     await repositories.mapAsync(async (githubRepo) => {
@@ -40,6 +41,7 @@ export const install = app.use(async (context: GitHubApiContext) => {
       };
 
       await repoQueue.enqueue(repoEvent);
+      context.logger.info(`Enqueued new repo event for '${repo.name}'`);
     });
   });
 

@@ -27,6 +27,9 @@ export const configApi = (): Middleware[] => {
 
 export const configWorkflow = (): Middleware[] => {
   return [
+    LoggingServiceMiddleware(defaultLogger),
+    PerformanceMiddleware(),
+    ExceptionMiddleware({ log: defaultLogger.log as any }),
     StorageQueueMiddleware(),
     GitHubMiddleware()
   ];
